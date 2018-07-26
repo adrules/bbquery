@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const User = require('user.model');
 
 const bbqSchema = new mongoose.Schema({
   user: {
@@ -23,8 +22,22 @@ const bbqSchema = new mongoose.Schema({
     required: 'Price per Person is required',
   },
   menu: {
-    type: String,
-    required: 'Menu is required'
+    courses: [{
+      name: String,
+      ingredients: [{
+        name: String,
+        amount: Number,
+        unit: String,
+        price: Number
+      }]
+    }],
+    bread: Boolean,
+    drinks: [{
+      name: String,
+      amount: Number,
+      unit: String,
+      price: Number
+    }]
   },
   tags: {
     type: [String]
