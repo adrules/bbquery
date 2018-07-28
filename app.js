@@ -21,7 +21,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 
-// To use session in an express app
+// To use session in an express app 
 app.use(session({
   secret: 'SuperSecret - (Change it)',
   resave: false,
