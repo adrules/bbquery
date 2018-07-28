@@ -21,7 +21,7 @@ module.exports.doCreate = (req, res, next) => {
         return user.save()
           .then(user => {
             // Will we want to confirm by email?
-            res.redirect('/users/login');
+            res.redirect('/sessions/login');
           });
       }
     })
@@ -37,11 +37,6 @@ module.exports.doCreate = (req, res, next) => {
     });
 }
 
-module.exports.login = (req, res, next) => {
-  res.render('users/login');
-}
-
-module.exports.doLogin = (req, res, next) => {
-  console.log("doCreat has to be implemented");
-  res.redirect('/users/login');
+module.exports.testAuth = (req, res, next) => {
+  res.render('users/testauth');
 }

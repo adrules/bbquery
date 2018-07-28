@@ -2,12 +2,16 @@ require('dotenv').config();
 
 const express = require('express');
 const path = require('path');
+const session = require('express-session');
+const passport = require('passport');
 
 const app = express();
 
 const usersRouter = require('./routes/user.routes');
+const sessionRouter = require('./routes/session.routes');
 
 require('./configs/db.config');
+require('./configs/passport.config').setup(passport);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -17,9 +21,29 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 
+// To use session in an express app
+app.use(session({
+  secret: 'SuperSecret - (Change it)',
+  resave: false,
+  saveUninitialized: true,
+  cookie: {
+    secure: false,
+    httpOnly: true,
+    maxAge: 1000 * 60 * 60 * 24
+  }
+}));
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+// We add req.user to locals to have access from views
+app.use((req, res, next) => {
+  res.locals.session = req.user;
+  next();
+});
 
 app.use('/users', usersRouter);
-
+app.use('/sessions', sessionRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
