@@ -2,11 +2,13 @@ const mongoose = require('mongoose');
 
 const requestModel = new mongoose.Schema({
   user: {
-    type: { type: Schema.Types.ObjectId, ref: 'User' },
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
     required: true
   },
   bbq: {
-    type: { type: Schema.Types.ObjectId, ref: 'Bbq' },
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Bbq',
     required: true
   },
   message: {

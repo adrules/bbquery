@@ -2,7 +2,8 @@ const mongoose = require('mongoose');
 
 const bbqSchema = new mongoose.Schema({
   user: {
-    type: { type: Schema.Types.ObjectId, ref: 'User' },
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
     required: 'User is required'
   },
   name: {
