@@ -1,0 +1,37 @@
+<div class="row mt-5">
+  <form action="/sessions/create" method="post" class="col-4 mx-auto">
+    <div class="input-group mb-2">
+      <div class="input-group-prepend">
+        <span class="input-group-text"> <i class="fas fa-envelope"></i> </span>
+      </div>
+      <input type="email" class="form-control" name="email" placeholder="user@exaple.org" value=""/>
+        <div class="invalid-feedback">
+        </div>
+    </div>
+
+    <div class="input-group mb-2">
+      <div class="input-group-prepend">
+        <span class="input-group-text"> <i class="fas fa-lock"></i> </span>
+      </div>
+      <input type="password" class="form-control" name="password" placeholder="Password"/>
+        <div class="invalid-feedback">
+        </div>
+    </div>
+    
+    <div class="form-actions">
+      <button class="btn btn-primary btn-block" type="submit" >Login</button>
+    </div>
+  </form>
+</div>
+{{!-- <div class="row mb-2">
+    <hr>
+  <form action="/sessions/google" method="post" class="col-4 mx-auto">
+    <button class="btn btn-danger btn-block" type="submit"><i class="fab fa-google"></i> Login with Google</button>
+  </form>
+</div>
+<div class="row">
+  <form action="/sessions/facebook" method="post" class="col-4 mx-auto">
+    <button class="btn btn-primary btn-block" type="submit">
+      <i class="fab fa-facebook"></i> Login with Facebook</button>
+  </form>
+</div> --}}
