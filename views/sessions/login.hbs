@@ -1,0 +1,25 @@
+<div class="row mt-5">
+  <form action="/sessions/login" method="POST" class="col-4 mx-auto">
+    <div class="input-group mb-2">
+      <div class="input-group-prepend">
+        <span class="input-group-text"> <i class="fas fa-envelope"></i> </span>
+      </div>
+      <input type="email" class="form-control" name="email" placeholder="user@exaple.org" value=""/>
+        <div class="invalid-feedback">
+        </div>
+    </div>
+
+    <div class="input-group mb-2">
+      <div class="input-group-prepend">
+        <span class="input-group-text"> <i class="fas fa-lock"></i> </span>
+      </div>
+      <input type="password" class="form-control" name="password" placeholder="Password"/>
+        <div class="invalid-feedback">
+        </div>
+    </div>
+    
+    <div class="form-actions">
+      <button class="btn btn-primary btn-block" type="submit" >Login</button>
+    </div>
+  </form>
+</div>
