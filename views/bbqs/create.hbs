@@ -21,91 +21,6 @@
     <input type="datetime-local" class="form-control" id="date" name="date">
   </div>
 
-  <div class="form-group">
-    <label for="description">Description</label>
-    <textarea class="form-control" id="description" name="description" rows="5"></textarea>
-  </div>
-
-  <div class="form-group mb-3">
-    <label for="tags">Tags</label>
-    <input type="text" class="form-control" id="tags" name="tags" value="" data-role="tagsinput">
-  </div>
-
-  <label for="menu">Dishes</label>
-  <button class="btn btn-sm btn-secondary">Add dish</button>
-  <div class="card mb-3 mt-3">
-    <div class="card-body">
-      <div class="form-group">
-        <label for="name">Name</label>
-        <input type="text" class="form-control" id="dishName" name="dishName" aria-describedby="nameHelp" placeholder="Dish name">
-      </div>
-      <label for="ingredients">Ingredients</label>
-      <button class="btn btn-sm btn-secondary">Add ingredient</button>
-      <div class="form-row">
-        <div class="col">
-          <input type="text" class="form-control" id="ingredient.name" name="ingredient.name" aria-describedby="ingredient.name" placeholder="Name">
-        </div>
-        <div class="col">
-          <input type="number" min="0.01" step="0.01" class="form-control" id="ingredient.ammount" name="ingredient.ammount" aria-describedby="ingredient.ammount" placeholder="Ammount">
-        </div>
-        <div class="col">
-          <input type="text" class="form-control" id="ingredient.unit" name="ingredient.unit" aria-describedby="ingredient.unit" placeholder="Unit">
-        </div>
-        <div class="col">
-          <div class="input-group mb-2">
-            <div class="input-group-prepend">
-              <div class="input-group-text">€</div>
-            </div>
-            <input type="number" min="0.01" step="0.01" name="ingredient.prize" class="form-control" id="ingredient.prize" placeholder="Prize per Unit">
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-
-  <label for="menu">Drinks</label>
-  <button class="btn btn-sm btn-secondary">Add drink</button>
-  <div class="card mb-3 mt-3">
-    <div class="card-body">
-      <div class="form-row">
-        <div class="col">
-          <input type="text" class="form-control" id="drinkName" name="drinkName" aria-describedby="drinkName" placeholder="Name">
-        </div>
-        <div class="col">
-          <input type="number" min="0.01" step="0.01" class="form-control" id="ingredient.ammount" name="ingredient.ammount" aria-describedby="ingredient.ammount" placeholder="Ammount">
-        </div>
-        <div class="col">
-          <input type="text" class="form-control" id="ingredient.unit" name="ingredient.unit" aria-describedby="ingredient.unit" placeholder="Unit">
-        </div>
-        <div class="col">
-          <div class="input-group mb-2">
-            <div class="input-group-prepend">
-              <div class="input-group-text">€</div>
-            </div>
-            <input type="number" min="0.01" step="0.01" name="ingredient.prize" class="form-control" id="ingredient.prize" placeholder="Prize per Unit">
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  
-
-  <div class="form-group">
-  <div class="form-check">
-    <input class="form-check-input" type="checkbox" value="" name="menu.bread" id="bread">
-    <label class="form-check-label" for="bread">
-      Bread is included?
-    </label>
-  </div>
-  </div>
-
-  <div class="form-group">
-    <label for="photos">Photos</label>
-    <input type="file" name="photos" class="form-control-file" id="photos" multiple>
-  </div>
-
   <label for="ppp">Prize per Person</label>
   <div class="input-group mb-3">
     <div class="input-group-prepend">
@@ -114,8 +29,176 @@
     <input type="number" min="0.01" step="0.01" class="form-control" aria-label="Prize per Person">
   </div>
 
+  <div class="form-group">
+    <label for="description">Description</label>
+    <textarea class="form-control" id="description" name="description" rows="5"></textarea>
+  </div>
+
+  <div class="custom-file mb-3">
+    <input type="file" class="custom-file-input" id="photos" name="photos" multiple>
+    <label class="custom-file-label" for="customFile">Upload your best photos!</label>
+  </div> 
+
+  <div class="form-group mb-4">
+    <label for="tags">Tags</label>
+    <input type="text" class="form-control" id="tags" name="tags" value="" data-role="tagsinput">
+  </div>
+
+  <section id="dishes">
+    <label for="menu">Dishes</label>
+    <button type="button" class="btn btn-sm btn-success" id="addDishButton">Add dish</button>    
+  </section>
+
+  <section id="drinks">
+    <label for="menu">Drinks</label>
+    <button type="button" class="btn btn-sm btn-success" id="drinkButton">Add drink</button> 
+    <div class="card mb-3 mt-3">
+      <div class="card-body"></div>
+    </div>
+  </section>  
+
+  <div class="form-group">
+    <div class="form-check">
+      <input class="form-check-input" type="checkbox" value="true" name="bread" id="bread">
+      <label class="form-check-label" for="bread">
+        Bread is included?
+      </label>
+    </div>
+  </div>
+
   <button type="submit" class="btn btn-primary mb-5 ">Submit</button>
 </form>
+
+
+{{!-- TEMPLATES --}}
+
+
+<script>
+  let dishCount = 0;
+  let ingredientCout = 0;
+
+  function addDish() {
+    let dish = `
+      <div class="card mb-3 mt-3">
+        <div class="card-body">
+          <label for="name">Name</label>
+          <div class="form-row">
+            <div class="col">
+              <div class="form-group">
+                <input type="text" class="form-control" id="dish" name="dishes" aria-describedby="nameHelp" placeholder="Dish name">
+              </div>
+            </div>
+            <div class="col">
+              <button type="button" class="btn btn-danger deleteDishButton" onclick="deleteDish(event)">Delete dish</button>
+            </div>
+          </div>
+        <label for="ingredients">Ingredients</label>
+        <button type="button" class="btn btn-sm btn-success" id="ingredientButton" onclick="addIngredient(event.target)">Add ingredient</button>
+        <div class="ingredients">
+          <div class="form-row">
+            <div class="col">
+              <input type="text" class="form-control form-control-sm" id="ingredient.name" name="ingredients.names" aria-describedby="ingredient.name" placeholder="Ingredient name">
+            </div>
+            <div class="col">
+              <input type="number" min="0.01" step="0.01" class="form-control form-control-sm" id="ingredient.ammount" name="ingredients.ammounts" aria-describedby="ingredient.ammount" placeholder="Ammount">
+            </div>
+            <div class="col">
+              <input type="text" class="form-control form-control-sm" id="ingredient.unit" name="ingredients.units" aria-describedby="ingredient.unit" placeholder="Unit">
+            </div>
+            <div class="col">
+              <div class="input-group input-group-sm mb-2">
+                <div class="input-group-prepend">
+                  <div class="input-group-text">€</div>
+                </div>
+                <input type="number" min="0.01" step="0.01" name="ingredients.prizes" class="form-control form-control-sm" id="ingredient.prize" placeholder="Prize per Unit">
+              </div>
+            </div>
+            <div class="col">
+              <button type="button" class="btn btn-danger btn-sm" onclick="deleteIngredient(event.target)">Delete ingredient</button>
+            </div>
+          </div>
+        </div>
+      </div>`;
+    $("#dishes").append(dish);
+  }
+
+  function deleteDish(event) {
+    if($('.deleteDishButton').length > 1) {
+      $(event.target).parents('.card').remove();
+    }
+  }
+
+  function addIngredient(target) {
+    let ingredient = `
+      <div class="form-row">
+        <div class="col">
+          <input type="text" class="form-control form-control-sm" id="ingredient.name" name="ingredients.names" aria-describedby="ingredient.name" placeholder="Ingredient name">
+        </div>
+        <div class="col">
+          <input type="number" min="0.01" step="0.01" class="form-control form-control-sm" id="ingredient.ammount" name="ingredients.ammounts" aria-describedby="ingredient.ammount" placeholder="Ammount">
+        </div>
+        <div class="col">
+          <input type="text" class="form-control form-control-sm" id="ingredient.unit" name="ingredients.units" aria-describedby="ingredient.unit" placeholder="Unit">
+        </div>
+        <div class="col">
+          <div class="input-group input-group-sm mb-2">
+            <div class="input-group-prepend">
+              <div class="input-group-text">€</div>
+            </div>
+            <input type="number" min="0.01" step="0.01" name="ingredients.prizes" class="form-control form-control-sm" id="ingredient.prize" placeholder="Prize per Unit">
+          </div>
+        </div>
+        <div class="col">
+          <button type="button" class="btn btn-danger btn-sm" onclick="deleteIngredient(event.target)">Delete ingredient</button>
+        </div>
+      </div>`;
+    $(target).siblings('.ingredients').append(ingredient);
+  }
+
+  function deleteIngredient(target) {
+    if($(target).parents('.ingredients').children('.form-row').length > 1) {
+      $(target).parents('.form-row').remove();
+    }
+  }
+
+  function addDrink() {
+    let drink = `
+      <div class="form-row">
+        <div class="col">
+          <input type="text" class="form-control" id="drink.name" name="drinks.names" aria-describedby="drink.name" placeholder="Drink name">
+        </div>
+        <div class="col">
+          <input type="number" min="0.01" step="0.01" class="form-control" id="drinks.ammounts" name="drinks.ammounts" aria-describedby="drink.ammount" placeholder="Ammount">
+        </div>
+        <div class="col">
+          <input type="text" class="form-control" id="drink.unit" name="drinks.units" aria-describedby="drink.unit" placeholder="Unit">
+        </div>
+        <div class="col">
+          <div class="input-group mb-2">
+            <div class="input-group-prepend">
+              <div class="input-group-text">€</div>
+            </div>
+            <input type="number" min="0.01" step="0.01" name="drinks.prizes" class="form-control" id="drink.prize" placeholder="Prize per Unit">
+          </div>
+        </div>
+        <div class="col">
+          <button type="button" class="btn btn btn-danger deleteDrinkButton" onclick="deleteDrink(event.target)">Delete drink</button>
+        </div>
+      </div>`;
+    $("#drinks").find('.card-body').append(drink);
+  }
+
+  function deleteDrink(target) {
+    if($('.deleteDrinkButton').length > 1) {
+      $(event.target).parents('.form-row').remove();
+    }
+  }
+
+  $('#addDishButton').on('click', addDish);
+  $('#drinkButton').on('click', addDrink);
+  addDish();
+  addDrink();
+</script>
 
 
 {{!-- GOOGLE PLACES API SCRIPT --}}
