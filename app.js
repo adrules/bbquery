@@ -6,6 +6,7 @@ const path = require('path');
 const app = express();
 
 const usersRouter = require('./routes/user.routes');
+const bbqsRouter = require('./routes/bbqs.routes');
 
 require('./configs/db.config');
 
@@ -19,7 +20,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 
 app.use('/users', usersRouter);
-
+app.use('/bbqs', bbqsRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -1,0 +1,156 @@
+<form method="POST" action="/bbqs/create" enctype="multipart/form-data ">
+
+  <div class="form-group">
+    <label for="name">Name</label>
+    <input type="text" class="form-control" id="name" name="name" aria-describedby="nameHelp" placeholder="Enter BBQ's name">
+  </div>
+
+  <label for="public">Your BBQ is...</label>
+  <select class="form-control" name="public">
+    <option value="true">Public</option>
+    <option value="false">Private</option>
+  </select>
+
+  <div class="form-group mt-3">
+    <label for="name">Address</label>
+    <input type="text" class="form-control" id="address" name="address" aria-describedby="Address" placeholder="Enter BBQ's address" onFocus="geolocate()">
+  </div>
+
+  <div class="form-group">
+    <label for="exampleInputPassword1">Date</label>
+    <input type="datetime-local" class="form-control" id="date" name="date">
+  </div>
+
+  <div class="form-group">
+    <label for="description">Description</label>
+    <textarea class="form-control" id="description" name="description" rows="5"></textarea>
+  </div>
+
+  <div class="form-group mb-3">
+    <label for="tags">Tags</label>
+    <input type="text" class="form-control" id="tags" name="tags" value="" data-role="tagsinput">
+  </div>
+
+  <label for="menu">Dishes</label>
+  <button class="btn btn-sm btn-secondary">Add dish</button>
+  <div class="card mb-3 mt-3">
+    <div class="card-body">
+      <div class="form-group">
+        <label for="name">Name</label>
+        <input type="text" class="form-control" id="dishName" name="dishName" aria-describedby="nameHelp" placeholder="Dish name">
+      </div>
+      <label for="ingredients">Ingredients</label>
+      <button class="btn btn-sm btn-secondary">Add ingredient</button>
+      <div class="form-row">
+        <div class="col">
+          <input type="text" class="form-control" id="ingredient.name" name="ingredient.name" aria-describedby="ingredient.name" placeholder="Name">
+        </div>
+        <div class="col">
+          <input type="number" min="0.01" step="0.01" class="form-control" id="ingredient.ammount" name="ingredient.ammount" aria-describedby="ingredient.ammount" placeholder="Ammount">
+        </div>
+        <div class="col">
+          <input type="text" class="form-control" id="ingredient.unit" name="ingredient.unit" aria-describedby="ingredient.unit" placeholder="Unit">
+        </div>
+        <div class="col">
+          <div class="input-group mb-2">
+            <div class="input-group-prepend">
+              <div class="input-group-text">€</div>
+            </div>
+            <input type="number" min="0.01" step="0.01" name="ingredient.prize" class="form-control" id="ingredient.prize" placeholder="Prize per Unit">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <label for="menu">Drinks</label>
+  <button class="btn btn-sm btn-secondary">Add drink</button>
+  <div class="card mb-3 mt-3">
+    <div class="card-body">
+      <div class="form-row">
+        <div class="col">
+          <input type="text" class="form-control" id="drinkName" name="drinkName" aria-describedby="drinkName" placeholder="Name">
+        </div>
+        <div class="col">
+          <input type="number" min="0.01" step="0.01" class="form-control" id="ingredient.ammount" name="ingredient.ammount" aria-describedby="ingredient.ammount" placeholder="Ammount">
+        </div>
+        <div class="col">
+          <input type="text" class="form-control" id="ingredient.unit" name="ingredient.unit" aria-describedby="ingredient.unit" placeholder="Unit">
+        </div>
+        <div class="col">
+          <div class="input-group mb-2">
+            <div class="input-group-prepend">
+              <div class="input-group-text">€</div>
+            </div>
+            <input type="number" min="0.01" step="0.01" name="ingredient.prize" class="form-control" id="ingredient.prize" placeholder="Prize per Unit">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  
+
+  <div class="form-group">
+  <div class="form-check">
+    <input class="form-check-input" type="checkbox" value="" name="menu.bread" id="bread">
+    <label class="form-check-label" for="bread">
+      Bread is included?
+    </label>
+  </div>
+  </div>
+
+  <div class="form-group">
+    <label for="photos">Photos</label>
+    <input type="file" name="photos" class="form-control-file" id="photos" multiple>
+  </div>
+
+  <label for="ppp">Prize per Person</label>
+  <div class="input-group mb-3">
+    <div class="input-group-prepend">
+      <span class="input-group-text">€</span>
+    </div>
+    <input type="number" min="0.01" step="0.01" class="form-control" aria-label="Prize per Person">
+  </div>
+
+  <button type="submit" class="btn btn-primary mb-5 ">Submit</button>
+</form>
+
+
+{{!-- GOOGLE PLACES API SCRIPT --}}
+
+
+<script>
+  var placeSearch, autocomplete;
+  var componentForm = {
+    street_number: 'short_name',
+    route: 'long_name',
+    locality: 'long_name',
+    administrative_area_level_1: 'short_name',
+    country: 'long_name',
+    postal_code: 'short_name'
+  };
+
+  function initAutocomplete() {
+    autocomplete = new google.maps.places.Autocomplete(document.getElementById('address'),{types: ['geocode']});
+  }
+
+  function geolocate() {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(function(position) {
+        var geolocation = {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude
+        };
+        var circle = new google.maps.Circle({
+          center: geolocation,
+          radius: position.coords.accuracy
+        });
+        autocomplete.setBounds(circle.getBounds());
+      });
+    }
+  }
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key={{apiKey}}&libraries=places&callback=initAutocomplete"
+async defer></script>

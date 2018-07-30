@@ -23,7 +23,7 @@ const bbqSchema = new mongoose.Schema({
     required: 'Price per Person is required',
   },
   menu: {
-    courses: [{
+    dishes: [{
       name: String,
       ingredients: [{
         name: String,
