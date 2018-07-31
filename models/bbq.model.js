@@ -1,10 +1,11 @@
 const mongoose = require('mongoose');
 
 const bbqSchema = new mongoose.Schema({
-  // user: {
-  //   type: { type: Schema.Types.ObjectId, ref: 'User' },
-  //   required: 'User is required'
-  // },
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: 'User is required'
+  },
   name: {
     type: String,
     required: 'Name is required'
@@ -22,7 +23,7 @@ const bbqSchema = new mongoose.Schema({
     required: 'Price per Person is required',
   },
   menu: {
-    courses: [{
+    dishes: [{
       name: String,
       ingredients: [{
         name: String,
