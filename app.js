@@ -13,6 +13,7 @@ const sessionRouter = require('./routes/session.routes');
 
 require('./configs/db.config');
 require('./configs/passport.config').setup(passport);
+require('./configs/hbs.config');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

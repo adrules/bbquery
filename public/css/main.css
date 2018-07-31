@@ -1,0 +1,17 @@
+.bbqs-container {
+  margin: 50px auto;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-content: flex-start;
+}
+
+.card {
+  flex-direction: row;
+}
+
+.bbq-card {
+  margin: 0 50px 50px 0;
+  text-decoration: none;
+}

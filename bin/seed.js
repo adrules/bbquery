@@ -10,7 +10,7 @@ for (let i = 0; i < 20; i++) {
     name: `First BBQ ${i}`,
     user: '8327462834',
     date: new Date(),
-    description: 'This BBQ is awesome',
+    description: 'This BBQ is awesome. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec non massa sit amet lacus viverra posuere id in justo. Sed egestas nisi sit amet orci molestie, ac imperdiet ex vestibulum. Donec sed metus ipsum. Praesent in orci vitae ex consequat vestibulum eget vel mi. In congue malesuada dui nec efficitur. Integer condimentum nec lectus et dignissim',
     ppp: 10,
     menu: {
       bread: true,
@@ -20,19 +20,19 @@ for (let i = 0; i < 20; i++) {
           ingredients: [
             {
               name: 'Bread',
-              amount: '1',
+              amount: 1,
               unit: 'pack',
               price: 0.2
             },
             {
               name: 'Meat',
-              amount: '250',
+              amount: 1,
               unit: 'g',
               price: 1
             },
             {
               name: 'Cheese',
-              amount: '50',
+              amount: 1,
               unit: 'g',
               price: 0.5
             }
@@ -42,19 +42,19 @@ for (let i = 0; i < 20; i++) {
           name: 'Salad',
           ingredients: [{
               name: 'Lettuce',
-              amount: '200',
+              amount: 1,
               unit: 'g',
               price: 0.15
             },
             {
               name: 'Tomatoe',
-              amount: '1',
+              amount: 1,
               unit: 'units',
               price: 1
             },
             {
               name: 'Onion',
-              amount: 'half',
+              amount: 1,
               unit: 'units',
               price: 0.4
             }]
@@ -62,7 +62,7 @@ for (let i = 0; i < 20; i++) {
       ],
       drinks: [{
         name: 'Beer',
-        amount: '1',
+        amount: 1,
         unit: 'L',
         price: 1
       }]
