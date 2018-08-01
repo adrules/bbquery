@@ -6,8 +6,6 @@ function initAutocomplete() {
     let place = autocomplete.getPlace();
     document.getElementById('latitude').value = place.geometry.location.lat();
     document.getElementById('longitude').value = place.geometry.location.lng();
-    console.log(document.getElementById('latitude').value);
-    console.log(document.getElementById('longitude').value);
   });
 }
 
