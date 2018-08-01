@@ -5,21 +5,30 @@
     <input type="text" class="form-control" id="name" name="name" aria-describedby="nameHelp" placeholder="Enter BBQ's name">
   </div>
 
-  <label for="public">Your BBQ is...</label>
-  <select class="form-control" name="public">
-    <option value="true">Public</option>
-    <option value="false">Private</option>
-  </select>
-
-  <div class="form-group mt-3">
+  <div class="form-group">
     <label for="name">Address</label>
     <input type="text" class="form-control" id="address" name="address" aria-describedby="Address" placeholder="Enter BBQ's address" onFocus="geolocate()">
   </div>
+
+  <input type="hidden" id="latitude" name="location[latitude]" />
+  <input type="hidden" id="longitude" name="location[longitude]" />
 
   <div class="form-group">
     <label for="exampleInputPassword1">Date</label>
     <input type="datetime-local" class="form-control" id="date" name="date">
   </div>
+
+  <label for="public">Public or private?</label>
+  <select class="form-control mb-3" name="public">
+    <option value="true">Public</option>
+    <option value="false">Private</option>
+  </select>
+
+  <label for="dog-friendly">Dog-friendly?</label>
+  <select class="form-control mb-3" name="dog-friendly">
+    <option value="true">Yes</option>
+    <option value="false">Yes</option>
+  </select>
 
   <label for="ppp">Prize per Person</label>
   <div class="input-group mb-3">
@@ -57,14 +66,11 @@
     </div>
   </section>  
 
-  <div class="form-group">
-    <div class="form-check">
-      <input class="form-check-input" type="checkbox" value="true" name="bread" id="bread">
-      <label class="form-check-label" for="bread">
-        Bread is included?
-      </label>
-    </div>
-  </div>
+  <label for="bread">Bread is included?</label>
+  <select class="form-control mb-3" name="bread">
+    <option value="true">Yes</option>
+    <option value="false">No</option>
+  </select>
 
   <button type="submit" class="btn btn-primary mb-5 ">Submit</button>
 </form>
@@ -74,5 +80,23 @@
 
 <script src="https://maps.googleapis.com/maps/api/js?key={{apiKey}}&libraries=places&callback=initAutocomplete" async defer></script>
 
+{{!-- <script src="http://maps.googleapis.com/maps/api/js?libraries=places" type="text/javascript"></script> --}}
+
+{{!-- <script type="text/javascript">
+    function initialize() {
+        var input = document.getElementById('searchTextField');
+        var autocomplete = new google.maps.places.Autocomplete(input);
+        google.maps.event.addListener(autocomplete, 'place_changed', function () {
+            var place = autocomplete.getPlace();
+            document.getElementById('city2').value = place.name;
+            document.getElementById('cityLat').value = place.geometry.location.lat();
+            document.getElementById('cityLng').value = place.geometry.location.lng();
+            alert("This function is working!");
+            alert(place.name);
+            alert(place.address_components[0].long_name);
+        });
+    }
+    google.maps.event.addDomListener(window, 'load', initialize); 
+</script> --}}
 
   

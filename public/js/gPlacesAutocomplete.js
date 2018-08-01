@@ -1,15 +1,14 @@
-var placeSearch, autocomplete;
-var componentForm = {
-  street_number: 'short_name',
-  route: 'long_name',
-  locality: 'long_name',
-  administrative_area_level_1: 'short_name',
-  country: 'long_name',
-  postal_code: 'short_name'
-};
+var autocomplete;
 
 function initAutocomplete() {
   autocomplete = new google.maps.places.Autocomplete(document.getElementById('address'),{types: ['geocode']});
+  google.maps.event.addListener(autocomplete, 'place_changed', function () {
+    let place = autocomplete.getPlace();
+    document.getElementById('latitude').value = place.geometry.location.lat();
+    document.getElementById('longitude').value = place.geometry.location.lng();
+    console.log(document.getElementById('latitude').value);
+    console.log(document.getElementById('longitude').value);
+  });
 }
 
 function geolocate() {
