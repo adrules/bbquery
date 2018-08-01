@@ -10,8 +10,9 @@
     <input type="text" class="form-control" id="address" name="address" aria-describedby="Address" placeholder="Enter BBQ's address" onFocus="geolocate()">
   </div>
 
-  <input type="hidden" id="latitude" name="location[latitude]" />
-  <input type="hidden" id="longitude" name="location[longitude]" />
+  <input type="hidden" id="location" name="location[type]" value="Point"/>
+  <input type="hidden" id="longitude" name="location[coordinates]" />
+  <input type="hidden" id="latitude" name="location[coordinates]" />
 
   <div class="form-group">
     <label for="exampleInputPassword1">Date</label>

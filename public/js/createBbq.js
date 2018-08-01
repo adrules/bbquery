@@ -24,7 +24,7 @@ function addDish() {
             <input type="text" class="form-control form-control-sm" name="dishes[${dishCounter}][ingredients][1][name]" placeholder="Ingredient name">
           </div>
           <div class="col">
-            <input type="number" min="0.01" step="0.01" class="form-control form-control-sm" name="dishes[${dishCounter}][ingredients][1][ammount]" placeholder="Ammount">
+            <input type="number" min="0.01" step="0.01" class="form-control form-control-sm" name="dishes[${dishCounter}][ingredients][1][amount]" placeholder="Amount">
           </div>
           <div class="col">
             <input type="text" class="form-control form-control-sm" id="ingredient.unit" name="dishes[${dishCounter}][ingredients][1][unit]" placeholder="Unit">
@@ -63,7 +63,7 @@ function addIngredient(target) {
         <input type="text" class="form-control form-control-sm" name="dishes[${dishNumber}][ingredients][${ingredientCount}][name]" placeholder="Ingredient name">
       </div>
       <div class="col">
-        <input type="number" min="0.01" step="0.01" class="form-control form-control-sm" name="dishes[${dishNumber}][ingredients][${ingredientCount}][ammount]" placeholder="Ammount">
+        <input type="number" min="0.01" step="0.01" class="form-control form-control-sm" name="dishes[${dishNumber}][ingredients][${ingredientCount}][amount]" placeholder="Amount">
       </div>
       <div class="col">
         <input type="text" class="form-control form-control-sm" id="ingredient.unit" name="dishes[${dishNumber}][ingredients][${ingredientCount}][unit]" placeholder="Unit">
@@ -89,7 +89,6 @@ function deleteIngredient(target) {
   }
 }
 
-
 function addDrink() {
   let drink = `
     <div class="form-row">
@@ -97,7 +96,7 @@ function addDrink() {
         <input type="text" class="form-control" name="drinks[${drinkCounter}][name]" placeholder="Drink name">
       </div>
       <div class="col">
-        <input type="number" min="0.01" step="0.01" class="form-control" name="drinks[${drinkCounter}][amount]" placeholder="Ammount">
+        <input type="number" min="0.01" step="0.01" class="form-control" name="drinks[${drinkCounter}][amount]" placeholder="Amount">
       </div>
       <div class="col">
         <input type="text" class="form-control" name="drinks[${drinkCounter}][unit]" placeholder="Unit">
