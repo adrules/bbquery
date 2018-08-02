@@ -22,24 +22,24 @@ const bbqSchema = new mongoose.Schema({
     type: Number,
     required: 'Price per Person is required',
   },
-  menu: {
-    dishes: [{
-      name: String,
-      ingredients: [{
-        name: String,
-        amount: Number,
-        unit: String,
-        price: Number
-      }]
-    }],
-    bread: Boolean,
-    drinks: [{
+  bread: {
+    type: Boolean
+  },
+  dishes: [{
+    name: String,
+    ingredients: [{
       name: String,
       amount: Number,
       unit: String,
       price: Number
     }]
-  },
+  }],
+  drinks: [{
+    name: String,
+    amount: Number,
+    unit: String,
+    price: Number
+  }],
   tags: {
     type: [String]
   },
@@ -73,7 +73,6 @@ const bbqSchema = new mongoose.Schema({
       required: true
     }
   }
-
 }, { timestamps: true });
 
 const Bbq = mongoose.model('Bbq', bbqSchema);
