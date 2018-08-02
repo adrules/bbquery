@@ -52,11 +52,15 @@ const bbqSchema = new mongoose.Schema({
   },
   status: {
     type: String,
-    enum: ['scheduled', 'closed', 'done', 'cancelled']
+    enum: ['scheduled', 'closed', 'done', 'cancelled'],
+    default: 'scheduled'
   },
   public: {
     type: Boolean,
     default: true
+  },
+  dogFriendly: {
+    type: Boolean
   },
   address: {
     type: String,
