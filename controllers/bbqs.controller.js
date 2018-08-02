@@ -8,6 +8,23 @@ module.exports.create = (req, res, next) => {
 
 module.exports.doCreate = (req, res, next) => {
   console.log(req.body);
+  const bbq = new Bbq(req.body);
+  bbq.save()
+    .then(() => {
+      console.log('bbq saved!!');
+      res.send('bbq created!!!');
+    })
+    .catch(error => {
+      if (error instanceof mongoose.Error.ValidationError) {
+        console.error(error);
+        res.render('bbqs/create', { 
+          bbq: bbq,
+          errors: error.errors
+        });
+      } else {
+        next(error);
+      }
+    });
 }
 
 module.exports.list = (req, res, next) => {
