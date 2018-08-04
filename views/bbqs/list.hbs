@@ -1,0 +1,25 @@
+<h1>Bbqs list</h1>
+
+<div id="map"></div>
+
+<script>
+      var map;
+
+      function initMap() {
+        map = new google.maps.Map(document.getElementById('map'), {
+          center: {
+            lat: 37.2678,
+            lng: -6.9502
+          },
+          zoom: 16
+        });  
+      }
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAwc_hPfT3qxZg2uuDztQW9lQXp7vPpLTg&callback=initMap"
+    async defer></script>
+
+<div class="bbqs-container">
+{{# each bbqs as |bbq| }}
+  {{> bbqPreview bbq }}
+{{/each }}
+</div>

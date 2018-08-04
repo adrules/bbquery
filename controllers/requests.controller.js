@@ -3,8 +3,6 @@ const Request = require('../models/request.model');
 
 module.exports.doCreate = (req, res, next) => {
   req.body.user = req.user._id;
-  const request = new Request(req.body);
-
   Request.findOne({user: request.user, bbq: request.bbq})
     .then(request => {
       if (request) {
@@ -13,6 +11,7 @@ module.exports.doCreate = (req, res, next) => {
           errors: { message: 'You already applied to this BBQ!' }
         });
       } else {
+        const request = new Request(req.body);
         request.save()
           .then(request => {
             console.log('nice! saving request!', request);
