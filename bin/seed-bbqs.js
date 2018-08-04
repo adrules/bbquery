@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const Bbq = require('../models/bbq.model');
 const User = require('../models/user.model');
+const faker = require('faker');
 
 require('../configs/db.config');
 
@@ -8,14 +9,13 @@ let arrBbq = [];
 
 User.find({})
   .then(users => {    
-    //console.log(users);
 
     for (let i = -1; ++i < 20;) {
       let bbq = {
-        name: `First BBQ ${i}`,
-        user:  mongoose.Types.ObjectId(users[Math.floor(Math.random() * users.length)]._id),
+        name: `BBQ at ${faker.address.city()}`,
+        user:  users[Math.floor(Math.random() * users.length)]._id,
         date: new Date(),
-        description: 'This BBQ is awesome. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec non massa sit amet lacus viverra posuere id in justo. Sed egestas nisi sit amet orci molestie, ac imperdiet ex vestibulum. Donec sed metus ipsum. Praesent in orci vitae ex consequat vestibulum eget vel mi. In congue malesuada dui nec efficitur. Integer condimentum nec lectus et dignissim',
+        description: faker.lorem.paragraph(),
         ppp: 10,
         bread: true,
         dishes: [
@@ -81,7 +81,6 @@ User.find({})
           coordinates: [-3.6974, 40.3923]
         }
       };
-
       
       arrBbq.push(bbq);
     }

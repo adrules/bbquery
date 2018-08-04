@@ -28,7 +28,7 @@ module.exports.doCreate = (req, res, next) => {
 }
 
 module.exports.list = (req, res, next) => {
-  Bbq.find({ public: true })
+  Bbq.find({ public: true }).populate('user')
     .then(bbqs => {
       res.render('bbqs/list', { 
         bbqs
