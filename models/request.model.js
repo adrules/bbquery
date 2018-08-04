@@ -1,10 +1,10 @@
 const mongoose = require('mongoose');
 
-const requestModel = new mongoose.Schema({
+const requestSchema = new mongoose.Schema({
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
-    required: true
+    //required: true
   },
   bbq: {
     type: mongoose.Schema.Types.ObjectId,
@@ -17,7 +17,8 @@ const requestModel = new mongoose.Schema({
   },
   status: {
     type: String,
-    enum: ['requested', 'accepted', 'cancelled', 'confirmed']
+    enum: ['requested', 'accepted', 'cancelled', 'confirmed'],
+    default: 'requested'
   }
 }, { timestamps: true });
 

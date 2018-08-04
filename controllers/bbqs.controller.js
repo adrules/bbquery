@@ -7,12 +7,10 @@ module.exports.create = (req, res, next) => {
 }
 
 module.exports.doCreate = (req, res, next) => {
-  console.log(req.body);
   const bbq = new Bbq(req.body);
   bbq.save()
-    .then(() => {
-      console.log('bbq saved!!');
-      res.send('bbq created!!!');
+    .then((newBbq) => {
+      res.redirect(`${newBbq.id}`);
     })
     .catch(error => {
       if (error instanceof mongoose.Error.ValidationError) {
@@ -36,5 +34,28 @@ module.exports.list = (req, res, next) => {
     })
     .catch(error => {
       next(error);
+    });
+}
+
+module.exports.get = (req, res, next) => {
+  const id = req.params.id;
+  Bbq.findById(id)
+    .then(bbq => {
+      if (bbq) {
+        bbq.latitude = bbq.location.coordinates[1];
+        bbq.longitude = bbq.location.coordinates[0];
+        res.render('bbqs/detail', {
+          bbq
+        });
+      } else {
+        next(createError(404, `Bbq not found :(`));
+      }
+  })
+  .catch(error => {
+    if (error instanceof mongoose.Error.CastError) {
+      next(createError(404, `Bbq not found :(`));
+    } else {
+      next(error);
+    }
   });
 }

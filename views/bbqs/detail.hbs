@@ -1,0 +1,71 @@
+<div class="container">
+  <img 
+    src="https://images.unsplash.com/photo-1523301343968-6a6ebf63c672?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=675d706c330862ec0a0b01703de8abba&auto=format&fit=crop&w=1950&q=80"
+    class="img-fluid" alt="Responsive image">
+
+  <h1>{{bbq.name}}'s BBQ <button class="btn btn-primary" id="join">Join</button> </h1>
+  
+  <div>
+    <form method="POST" action="/requests/create" class="mb-5 mt-3">
+      <input type="text" name="bbq" value="{{bbq._id}}" hidden>
+      <div id="request"></div>
+    </form>
+  </div>
+
+  <h2>{{bbq.date}}</h2>
+
+  <p>{{bbq.description}}</p>
+
+  <iframe 
+    src="https://maps.google.com/maps?q={{bbq.latitude}},{{bbq.longitude}}&hl=es;z=14&amp;output=embed" 
+    width="600" height="450" frameborder="0" style="border:0" allowfullscreen>
+  </iframe>
+
+  <p>Price: {{bbq.ppp}}€ per person</p>
+
+  <p>Max attendees: {{bbq.maxAttendees}} people</p>
+
+  <p>Status: {{bbq.status}}</p>
+  {{#if bbq.public}}
+    <p>Public BBQ</p>
+  {{else}}
+    <p>Private BBQ</p>
+  {{/if}}
+
+  {{#if bbq.dogFriendly}}
+    <p>Dog friendly :)</p>
+  {{/if}}
+
+  <p>Tags: {{bbq.tags}}</p>
+
+  <hr>
+
+  <h2>Menu</h2>
+  <h3>Dishes</h3>
+
+  <ul>
+    {{#each bbq.dishes}}
+      <li>{{this.name}}</li>
+      <ul>
+        {{#each this.ingredients}}
+          <li>{{this.name}}</li>
+        {{/each}}
+      </ul>
+    {{/each}}
+  </ul>
+
+  <h3>Drinks</h3>
+
+  <ul>
+  {{#each bbq.drinks}}
+    <li>{{this.name}}</li>
+  {{/each}}
+  </ul> 
+
+  {{#if bbq.bread}}
+    <p>Bread is included! :)</p>
+  {{/if}} 
+
+</div>
+
+<script src="../js/bbq-detail.js"></script>

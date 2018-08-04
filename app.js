@@ -8,9 +8,10 @@ const bodyParser = require('body-parser');
 
 const app = express();
 
-const usersRouter = require('./routes/user.routes');
+const usersRouter = require('./routes/users.routes');
 const bbqsRouter = require('./routes/bbqs.routes');
-const sessionRouter = require('./routes/session.routes');
+const sessionRouter = require('./routes/sessions.routes');
+const requestRouter = require('./routes/requests.routes');
 
 require('./configs/db.config');
 require('./configs/passport.config').setup(passport);
@@ -45,6 +46,7 @@ app.use(passport.session());
 app.use('/users', usersRouter);
 app.use('/bbqs', bbqsRouter);
 app.use('/sessions', sessionRouter);
+app.use('/requests', requestRouter);
 
 
 // We add req.user to locals to have access from views
