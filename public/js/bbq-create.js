@@ -1,6 +1,6 @@
 let dishCounter = 1;
 let drinkCounter = 1;
-  
+
 function addDish() {
   let dish = `
     <div class="card mb-3 mt-3 dish" data-count="${dishCounter}">
