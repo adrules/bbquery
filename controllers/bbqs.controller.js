@@ -10,7 +10,6 @@ module.exports.doCreate = (req, res, next) => {
   const bbq = new Bbq(req.body);
   bbq.save()
     .then((newBbq) => {
-      console.log('las barbacoa', newBbq);
       res.redirect(`${newBbq.id}`);
     })
     .catch(error => {
@@ -27,7 +26,6 @@ module.exports.doCreate = (req, res, next) => {
 }
 
 module.exports.get = (req, res, next) => {
-  console.log("los parametro:", req.params);
   const id = req.params.id;
   Bbq.findById(id)
     .then(bbq => {
