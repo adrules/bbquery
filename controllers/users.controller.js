@@ -17,14 +17,19 @@ module.exports.doCreate = (req, res, next) => {
           errors: { email: 'Email already registered' }
         });
       } else {
-        let userData = req.body;
-        userData.image = "image-route";
-        user = new User (userData);
+        var rand = function() {
+          return Math.random().toString(36).substr(2); // remove `0.`
+        };      
+        var token = function() {
+          return rand() + rand(); // to make it longer
+        };
+        req.body.token = token();
+        req.body.image = "image-route";
+        user = new User(req.body);
         return user.save()
           .then(user => {
-            // Will we want to confirm by email?
             mailer.confirmSignUp(user);
-            res.redirect('/sessions/login');
+            res.render('sessions/login', {message: "User created! Please check your email to activate it"});
           });
       }
     })
@@ -42,4 +47,31 @@ module.exports.doCreate = (req, res, next) => {
 
 module.exports.testAuth = (req, res, next) => {
   res.render('users/testauth');
+}
+
+module.exports.activate = (req, res, next) => {
+  console.log(req.query.user)
+  User.findById(req.query.user)
+    .then(user => {
+      if (user) {
+        console.log('is the user active?', user.active);
+        if (user.active) {
+          console.log('user is already activated, redirecting'); 
+          res.render('users/testauth', {message: "User already activated!"});
+        } else {
+          if (user.token === req.query.token) {
+          console.log('token match!!! :)');
+          user.set({ active: true });
+          User.findByIdAndUpdate(req.query.user, {active: true})
+            .then(() => {
+              console.log(`user ${user.email} activated!! :)`);
+              res.render('sessions/login', {message: "User activated! Please login"});
+            })
+            .catch(error => console.log(error))
+          }
+        }
+      } else {
+        res.redirect(`../users/create`);
+      }      
+    })
 }

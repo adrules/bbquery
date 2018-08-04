@@ -12,14 +12,13 @@ const defaultFrom = process.env.EMAIL_SENDER
 const message = "Hi! You are not a robot, are you? If so, click here please so we can be sure!"
 
 module.exports.confirmSignUp = (user) => {
-  console.log('Mailer service!');
-  console.log(transporter);
-  console.log(user);
+  const query = `http://localhost:3000/users/activate?user=${user._id}&token=${user.token}`;
+  const message = `Hi! You are not a robot, are you? If so, click <a href="${query}" target="_blank">here<a> so we can be sure!`;
   transporter.sendMail({
     from: '"BBQuery App" <bbquery.app@gmail.com>',
     to: user.email, 
     subject: "Confirm your account", 
     text: message,
-    html: `<b>${message}</b>`
+    html: `${message}`
   })
 }
