@@ -2,6 +2,8 @@ const createError = require('http-errors');
 const mongoose = require('mongoose');
 const User = require('../models/user.model');
 
+const mailer = require('../services/mailer.service');
+
 module.exports.create = (req, res, next) => {
   res.render('users/create');
 }
@@ -21,6 +23,7 @@ module.exports.doCreate = (req, res, next) => {
         return user.save()
           .then(user => {
             // Will we want to confirm by email?
+            mailer.confirmSignUp(user);
             res.redirect('/sessions/login');
           });
       }
