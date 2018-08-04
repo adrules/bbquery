@@ -15,6 +15,7 @@ module.exports.doCreate = (req, res, next) => {
           errors: { email: 'Email already registered' }
         });
       } else {
+        // We have to be sure we dont receive user custom parameters
         let userData = req.body;
         userData.image = "image-route";
         user = new User (userData);

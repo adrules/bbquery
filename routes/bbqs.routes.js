@@ -8,4 +8,6 @@ router.post('/create', authMiddleware.isAuthenticated, bbqsController.doCreate);
 
 router.get('/:id', bbqsController.get);
 
+router.get('/list', bbqsController.list);
+
 module.exports = router;

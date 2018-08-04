@@ -25,6 +25,18 @@ module.exports.doCreate = (req, res, next) => {
     });
 }
 
+module.exports.list = (req, res, next) => {
+  Bbq.find({ public: true }).populate('user')
+    .then(bbqs => {
+      res.render('bbqs/list', { 
+        bbqs
+      });
+    })
+    .catch(error => {
+      next(error);
+    });
+}
+
 module.exports.get = (req, res, next) => {
   const id = req.params.id;
   Bbq.findById(id)
