@@ -43,17 +43,16 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use('/users', usersRouter);
-app.use('/bbqs', bbqsRouter);
-app.use('/sessions', sessionRouter);
-app.use('/requests', requestRouter);
-
-
 // We add req.user to locals to have access from views
 app.use((req, res, next) => {
   res.locals.session = req.user;
   next();
 });
+
+app.use('/users', usersRouter);
+app.use('/bbqs', bbqsRouter);
+app.use('/sessions', sessionRouter);
+app.use('/requests', requestRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -15,3 +15,8 @@
   margin: 0 50px 50px 0;
   text-decoration: none;
 }
+
+#map {
+  height: 400px;
+  border: 1px dotted;
+}
