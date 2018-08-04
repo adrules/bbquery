@@ -13,6 +13,8 @@ const bbqsRouter = require('./routes/bbqs.routes');
 const sessionRouter = require('./routes/sessions.routes');
 const requestRouter = require('./routes/requests.routes');
 
+const bbqsController = require('./controllers/bbqs.controller');
+
 require('./configs/db.config');
 require('./configs/passport.config').setup(passport);
 require('./configs/hbs.config');
@@ -53,9 +55,7 @@ app.use('/users', usersRouter);
 app.use('/bbqs', bbqsRouter);
 app.use('/sessions', sessionRouter);
 app.use('/requests', requestRouter);
-app.use('/', (req, res) => {
-  res.redirect('/bbqs')
-});
+app.use('/', bbqsController.list);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
