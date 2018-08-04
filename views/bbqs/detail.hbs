@@ -3,7 +3,13 @@
     src="https://images.unsplash.com/photo-1523301343968-6a6ebf63c672?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=675d706c330862ec0a0b01703de8abba&auto=format&fit=crop&w=1950&q=80"
     class="img-fluid" alt="Responsive image">
 
-  <h1>{{bbq.name}}'s BBQ <button class="btn btn-primary" id="join">Join</button> </h1>
+  <h1>{{bbq.name}}'s BBQ 
+    {{#if bbq.requested}}
+      <button class="btn btn-primary" id="join" disabled>Waiting confirmation...</button>
+    {{else}}
+      <button class="btn btn-primary" id="join">Join</button>
+    {{/if}}
+  </h1>
   
   <div>
     <form method="POST" action="/requests/create" class="mb-5 mt-3">

@@ -3,8 +3,8 @@ const router = express.Router();
 const bbqsController = require('../controllers/bbqs.controller');
 const authMiddleware = require('../middlewares/auth.middleware');
 
-router.get('/create', bbqsController.create);
-router.post('/create', authMiddleware.isAuthenticated, bbqsController.doCreate);
+router.get('/create', authMiddleware.isAuthenticated, authMiddleware.isActive, bbqsController.create);
+router.post('/create', authMiddleware.isAuthenticated, authMiddleware.isActive, bbqsController.doCreate);
 
 router.get('/list', bbqsController.list);
 
