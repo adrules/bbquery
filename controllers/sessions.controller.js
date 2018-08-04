@@ -30,7 +30,7 @@ module.exports.doLogin = (req, res, next) => {
           if (error) {
             next(error)
           } else {
-            res.redirect('/users/testauth');
+            res.redirect('/');
           }
         });
       }

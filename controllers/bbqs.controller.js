@@ -8,6 +8,7 @@ module.exports.create = (req, res, next) => {
 }
 
 module.exports.doCreate = (req, res, next) => {
+  req.body.user = req.user._id;
   const bbq = new Bbq(req.body);
   bbq.save()
     .then((newBbq) => {
@@ -27,7 +28,8 @@ module.exports.doCreate = (req, res, next) => {
 }
 
 module.exports.list = (req, res, next) => {
-  Bbq.find({ public: true }).populate('user')
+  Bbq.find({ public: true })
+    .populate('user')
     .then(bbqs => {
       res.render('bbqs/list', { 
         bbqs
@@ -41,16 +43,18 @@ module.exports.list = (req, res, next) => {
 module.exports.get = (req, res, next) => {
   const id = req.params.id;
   Bbq.findById(id)
+    .populate('user')
     .then(bbq => {
       if (bbq) {
-        console.log('bbq found!');
         bbq.latitude = bbq.location.coordinates[1];
         bbq.longitude = bbq.location.coordinates[0];
         if (req.user) {
+          if (bbq.user.equals(req.user._id)) {
+            bbq.organizer = true;
+          }
           Request.findOne({ user: req.user._id, bbq: bbq._id })
             .then(request => {
               if (request) {
-                console.log('request found');
                 bbq.requested = true;
               }
               res.render('bbqs/detail', {
@@ -65,7 +69,7 @@ module.exports.get = (req, res, next) => {
       } else {
         next(createError(404, `Bbq not found :(`));
       }
-    }) 
+    })
     .catch(error => {
       if (error instanceof mongoose.Error.CastError) {
         next(createError(404, `Bbq not found :(`));

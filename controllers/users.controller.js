@@ -50,21 +50,18 @@ module.exports.testAuth = (req, res, next) => {
 }
 
 module.exports.activate = (req, res, next) => {
-  console.log(req.query.user)
   User.findById(req.query.user)
     .then(user => {
       if (user) {
-        console.log('is the user active?', user.active);
         if (user.active) {
-          console.log('user is already activated, redirecting'); 
-          res.render('users/testauth', {message: "User already activated!"});
+          console.log('User is already activated, redirecting...'); 
+          res.render('users/testauth', {message: "Hey! You already activated your account!"});
         } else {
           if (user.token === req.query.token) {
-          console.log('token match!!! :)');
           user.set({ active: true });
           User.findByIdAndUpdate(req.query.user, {active: true})
             .then(() => {
-              console.log(`user ${user.email} activated!! :)`);
+              console.log(`User ${user.email} activated!! :)`);
               res.render('sessions/login', {message: "User activated! Please login"});
             })
             .catch(error => console.log(error))

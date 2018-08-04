@@ -53,6 +53,9 @@ app.use('/users', usersRouter);
 app.use('/bbqs', bbqsRouter);
 app.use('/sessions', sessionRouter);
 app.use('/requests', requestRouter);
+app.use('/', (req, res) => {
+  res.redirect('/bbqs')
+});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
