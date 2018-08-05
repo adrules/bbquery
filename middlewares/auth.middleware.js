@@ -8,3 +8,12 @@ module.exports.isAuthenticated = (req, res, next) => {
       .redirect('/sessions/login');
   }
 }
+
+module.exports.isActive = (req, res, next) => {
+  if (req.user.active === true) {
+    next()
+  } else {
+    res.status(401)
+      .redirect('/sessions/login');
+  }
+}

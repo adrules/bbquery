@@ -1,12 +1,14 @@
 const createError = require('http-errors');
 const mongoose = require('mongoose');
 const Bbq = require('../models/bbq.model');
+const Request = require('../models/request.model');
 
 module.exports.create = (req, res, next) => {
   res.render('bbqs/create', { apiKey: process.env.GPLACES_API_KEY });
 }
 
 module.exports.doCreate = (req, res, next) => {
+  req.body.user = req.user._id;
   const bbq = new Bbq(req.body);
   bbq.save()
     .then((newBbq) => {
@@ -26,7 +28,8 @@ module.exports.doCreate = (req, res, next) => {
 }
 
 module.exports.list = (req, res, next) => {
-  Bbq.find({ public: true }).populate('user')
+  Bbq.find({ public: true })
+    .populate('user')
     .then(bbqs => {
       res.render('bbqs/list', { 
         bbqs
@@ -55,22 +58,40 @@ module.exports.getBbqsLocations = (req, res, next) => {
 module.exports.get = (req, res, next) => {
   const id = req.params.id;
   Bbq.findById(id)
+    .populate('user')
     .then(bbq => {
       if (bbq) {
         bbq.latitude = bbq.location.coordinates[1];
         bbq.longitude = bbq.location.coordinates[0];
-        res.render('bbqs/detail', {
-          bbq
-        });
+        if (req.user) {
+          if (bbq.user.equals(req.user._id)) {
+            bbq.organizer = true;
+          }
+          Request.findOne({ user: req.user._id, bbq: bbq._id })
+            .then(request => {
+              if (request) {
+                bbq.requested = true;
+              }
+              res.render('bbqs/detail', {
+                bbq, 
+                apiKey: process.env.GPLACES_API_KEY
+              });
+            })
+        } else {
+          res.render('bbqs/detail', {
+            bbq,
+            apiKey: process.env.GPLACES_API_KEY
+          });
+        }
       } else {
         next(createError(404, `Bbq not found :(`));
       }
-  })
-  .catch(error => {
-    if (error instanceof mongoose.Error.CastError) {
-      next(createError(404, `Bbq not found :(`));
-    } else {
-      next(error);
-    }
-  });
+    })
+    .catch(error => {
+      if (error instanceof mongoose.Error.CastError) {
+        next(createError(404, `Bbq not found :(`));
+      } else {
+        next(error);
+      }
+    });
 }

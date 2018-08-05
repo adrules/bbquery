@@ -56,7 +56,6 @@ function deleteDish(event) {
 function addIngredient(target) {
   let ingredientCount = $(target).siblings('.ingredients').children().length + 1;
   let dishNumber = $(target).parents('.dish').data('count');
-  console.log(dishNumber);
   let ingredient = `
     <div class="form-row">
       <div class="col">

@@ -30,10 +30,15 @@ module.exports.doLogin = (req, res, next) => {
           if (error) {
             next(error)
           } else {
-            res.redirect('/users/testauth');
+            res.redirect('/');
           }
         });
       }
     })(req, res, next);
   }
+}
+
+module.exports.logout = (req, res, next) => {
+  req.logout();
+  res.redirect('/');
 }

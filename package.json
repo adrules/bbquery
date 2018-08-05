@@ -29,6 +29,7 @@
     "hbs": "^4.0.1",
     "http-errors": "^1.6.3",
     "mongoose": "^5.2.5",
+    "nodemailer": "^4.6.7",
     "passport": "^0.4.0",
     "passport-local": "^1.0.0",
     "path": "^0.12.7"
