@@ -72,3 +72,14 @@ module.exports.activate = (req, res, next) => {
       }      
     })
 }
+
+module.exports.get = (req, res, next) => {
+  User.findById(req.params.id)
+  .then(user => {
+    if (user) {
+      res.render('users/detail', { user });
+    } else {
+      res.redirect(`/`);
+    }
+  })  
+}
