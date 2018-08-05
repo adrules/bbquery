@@ -1,8 +1,7 @@
+require('../configs/db.config');
 const mongoose = require('mongoose');
 const User = require('../models/user.model');
 const faker = require('faker'); 
-
-require('../configs/db.config');
 
 const numUsers = 20;
 let users = [];
