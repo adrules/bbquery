@@ -58,12 +58,14 @@ module.exports.get = (req, res, next) => {
                 bbq.requested = true;
               }
               res.render('bbqs/detail', {
-                bbq
+                bbq, 
+                apiKey: process.env.GPLACES_API_KEY
               });
             })
         } else {
           res.render('bbqs/detail', {
-            bbq
+            bbq,
+            apiKey: process.env.GPLACES_API_KEY
           });
         }
       } else {

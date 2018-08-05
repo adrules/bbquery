@@ -3,10 +3,10 @@
     <img class="card-img-top" src="https://www.beaucettemarina.com/wp-content/uploads/2016/07/BBQ-Image.jpg">
   </a>
   <div class="card-body">
-    <a href="bbqs/{{ this._id }}">
+    <a href="/bbqs/{{ this._id }}">
       <h5 class="card-title">{{ this.name }}</h5>
     </a>
-    <a href="users/{{ this.user._id }}">
+    <a href="/users/{{ this.user._id }}">
       <h6 class="card-title">{{ this.user.firstName }} {{ this.user.lastName }}</h6>
     </a>
     <p class="card-text">{{ this.description }}</p>
