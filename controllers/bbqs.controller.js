@@ -61,8 +61,8 @@ module.exports.get = (req, res, next) => {
     .populate('user')
     .then(bbq => {
       if (bbq) {
-        bbq.latitude = bbq.location.coordinates[1];
-        bbq.longitude = bbq.location.coordinates[0];
+        bbq.latitude = bbq.location.coordinates[0];
+        bbq.longitude = bbq.location.coordinates[1];
         if (req.user) {
           if (bbq.user.equals(req.user._id)) {
             bbq.organizer = true;
