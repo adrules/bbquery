@@ -11,6 +11,14 @@ User.find({})
   .then(users => {    
 
     for (let i = -1; ++i < 20;) {
+
+      // Get random location coords            
+      let locationCoords = [
+        parseFloat((Math.random() * 0.32 + 40.24).toFixed(4)),
+        -parseFloat((Math.random() * 0.5 + 3.48).toFixed(4))
+      ];
+      
+
       let bbq = {
         name: `BBQ at ${faker.address.city()}`,
         user:  users[Math.floor(Math.random() * users.length)]._id,
@@ -78,7 +86,7 @@ User.find({})
         address: 'Calle Falsa 123',
         location: {
           type: 'Point',
-          coordinates: [-3.6974, 40.3923]
+          coordinates: locationCoords
         }
       };
       

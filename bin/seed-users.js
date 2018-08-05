@@ -4,26 +4,26 @@ const User = require('../models/user.model');
 const faker = require('faker'); 
 
 const numUsers = 20;
-let users = [];
 
-for (let i = -1; ++i < numUsers;) {
-  users.push({
+for (let i = -1; ++i < numUsers;) {  
+
+  let password = faker.internet.password();
+
+  new User({
     firstName: faker.name.firstName(),
     lastName: faker.name.lastName(),
     email: faker.internet.email(),
-    password: faker.internet.password(),
-    image: faker.random.image(),
+    password: password,
+    image: password,
     age: 25,
     genre: 'female'
-  });
+  }).save()
+    .then(user => {
+      console.log(`${user.firstName} correctly added to the collection`);
+      mongoose.connection.close();
+    })
+    .catch(e => {
+      console.error(e);
+      mongoose.connection.close();
+    });
 }
-
-User.insertMany(users)
-  .then(users => {
-    console.info(`Seeded ${users.length} users properly`);
-    mongoose.connection.close();
-  })
-  .catch(err => {
-    console.error('Seeding error', err);
-    mongoose.connection.close();
-  });

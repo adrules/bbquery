@@ -37,6 +37,21 @@ module.exports.list = (req, res, next) => {
     });
 }
 
+module.exports.getBbqsLocations = (req, res, next) => {
+  Bbq.find()
+    .then(bbqs => {
+
+      let bbqsLocation = bbqs.map(bbq => {
+        return { 
+          lat: bbq.location.coordinates[0],
+          lng: bbq.location.coordinates[1]
+        }});
+        
+      res.json({ data: bbqsLocation });
+    })
+    .catch(e => console.error(e));
+};
+
 module.exports.get = (req, res, next) => {
   const id = req.params.id;
   Bbq.findById(id)

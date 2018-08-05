@@ -6,6 +6,8 @@ const authMiddleware = require('../middlewares/auth.middleware');
 router.get('/create', bbqsController.create);
 router.post('/create', authMiddleware.isAuthenticated, bbqsController.doCreate);
 
+router.get('/locations', bbqsController.getBbqsLocations);
+
 router.get('/list', bbqsController.list);
 
 router.get('/:id', bbqsController.get);

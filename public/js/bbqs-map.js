@@ -3,7 +3,7 @@ const CENTER = {
   lng: -3.703500
 }
 
-const ZOOM = 12;
+const ZOOM = 10;
 
 class BbqsMap {
 
@@ -27,16 +27,11 @@ class BbqsMap {
   addBbq(bbq) {
     let newBbq = new google.maps.Marker({
       position: {
-        lat: bbq.location.coordinates[0],
-        lng: bbq.location.coordinates[1]
+        lat: bbq.lat,
+        lng: bbq.lng
       },
       map: this.map
     });
-
-    this.map.setCenter({
-        lat: bbq.location.coordinates[0],
-        lng: bbq.location.coordinates[1]
-      })
 
     this.bbqs.push(newBbq);
   }

@@ -9,7 +9,7 @@ class BbqsApi {
   }
 
   getBbqs() {
-    return this.api.get('/')
+    return this.api.get('/locations')
       .then(async response => response.data)
       .catch(error => console.error(error));
   }
