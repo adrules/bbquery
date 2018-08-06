@@ -1,14 +1,16 @@
-<div class="card bbq-card">
-  <a href="bbqs/{{ this._id }}">
-    <img class="card-img-top" src="https://www.beaucettemarina.com/wp-content/uploads/2016/07/BBQ-Image.jpg">
-  </a>
-  <div class="card-body">
+<div class="media bbq-preview">
+  <img class="align-self-start mr-3 img-fluid" src="https://www.beaucettemarina.com/wp-content/uploads/2016/07/BBQ-Image.jpg">
+  <div class="media-body">
+
     <a href="/bbqs/{{ this._id }}">
-      <h5 class="card-title">{{ this.name }}</h5>
+      <h5 class="mt-0">{{ this.name }}</h5>
     </a>
+
     <a href="/users/{{ this.user._id }}">
-      <h6 class="card-title">{{ this.user.firstName }} {{ this.user.lastName }}</h6>
+      <h6 class="card-title">{{ this.user.firstName }}</h6>
     </a>
-    <p class="card-text">{{ this.description }}</p>
+
+    <p>{{ this.description }}</p>  
+    <p></p>  
   </div>
 </div>
