@@ -16,7 +16,9 @@ for (let i = -1; ++i < numUsers;) {
     password: password,
     image: password,
     age: 25,
-    genre: 'female'
+    genre: 'female',
+    active: true,
+    token: '2fixdi6u8v9ekcu3ix6u1'
   }).save()
     .then(user => {
       console.log(`${user.firstName} correctly added to the collection`);
