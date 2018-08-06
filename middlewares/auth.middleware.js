@@ -14,6 +14,6 @@ module.exports.isActive = (req, res, next) => {
     next()
   } else {
     res.status(401)
-      .redirect('/sessions/login');
+      .render('../views/sessions/login', {message: 'Please check your email to activate your user!'});
   }
 }

@@ -1,84 +1,77 @@
   
-  <div>
-    <img src="https://images.unsplash.com/photo-1523301343968-6a6ebf63c672?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=675d706c330862ec0a0b01703de8abba&auto=format&fit=crop&w=1950&q=80" class="img-fluid" alt="Responsive image">
-    <h1>{{bbq.name}}
-      {{#if bbq.requested}}
-        <button class="btn btn-primary" disabled>Waiting confirmation...</button>
-      {{else bbq.organizer}}
-        <a class="btn btn-primary" href="{{bbq._id}}/edit" disabled>Edit</a>
-      {{else session}}
-        <button class="btn btn-primary" id="join">Join BBQ!</button>
-      {{else}}      
-        <a class="btn btn-primary" href="../sessions/login">Wanna Join? Login!</a>
-      {{/if}}
-    </h1>
-    <p><span class="font-weight-bold">Date:</span> {{bbq.date}}</p>
-    <p><span class="font-weight-bold">Organizer</span> <a href="../users/{{bbq.user.id}}">@{{bbq.user.firstName}}</a> wants to remember this:</p>
-    <p class="font-italic">"{{bbq.description}}"</p>
-  <div>
+<div>
+  <img src="https://images.unsplash.com/photo-1523301343968-6a6ebf63c672?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=675d706c330862ec0a0b01703de8abba&auto=format&fit=crop&w=1950&q=80" class="img-fluid" alt="Responsive image">
+  <h1>{{bbq.name}}
+    {{#if bbq.requested}}
+      <button class="btn btn-primary" disabled>Waiting confirmation...</button>
+    {{else bbq.organizer}}
+      <a class="btn btn-primary" href="{{bbq._id}}/edit" disabled>Edit</a>
+    {{else session}}
+      <button class="btn btn-primary" id="join">Join BBQ!</button>
+    {{else}}      
+      <a class="btn btn-primary" href="../sessions/login">Wanna Join? Login!</a>
+    {{/if}}
+  </h1>
+  <p><span class="font-weight-bold">Date:</span> {{bbq.date}}</p>
+  <p><span class="font-weight-bold">Organizer</span> <a href="../users/{{bbq.user.id}}">@{{bbq.user.firstName}}</a> wants to remember this:</p>
+  <p class="font-italic">"{{bbq.description}}"</p>
+<div>
 
-  <div>
-    <form method="POST" action="/requests/create" class="mb-5 mt-3">
-      <input type="text" name="bbq" value="{{bbq._id}}" hidden>
-      <div id="request"></div>
-    </form>
-  </div> 
+<div>
+  <form method="POST" action="/requests/create" class="mb-5 mt-3">
+    <input type="text" name="bbq" value="{{bbq._id}}" hidden>
+    <div id="request"></div>
+  </form>
+</div> 
 
-  {{!-- <iframe 
-    src="https://maps.google.com/maps?q={{bbq.longitude}},{{bbq.latitude}}&hl=es;z=14&amp;output=embed" 
-    width="600" height="450" frameborder="0" style="border:0" allowfullscreen>
-  </iframe> --}}
+<div id="map"></div>
 
-  <div id="map"></div>
+<p>Price: {{bbq.ppp}}€ per person</p>
 
-  <p>Price: {{bbq.ppp}}€ per person</p>
+<p>Max attendees: {{bbq.maxAttendees}} people</p>
 
-  <p>Max attendees: {{bbq.maxAttendees}} people</p>
+<p>Status: {{bbq.status}}</p>
+{{#if bbq.public}}
+  <p>Public BBQ</p>
+{{else}}
+  <p>Private BBQ</p>
+{{/if}}
 
-  <p>Status: {{bbq.status}}</p>
-  {{#if bbq.public}}
-    <p>Public BBQ</p>
-  {{else}}
-    <p>Private BBQ</p>
-  {{/if}}
+{{#if bbq.dogFriendly}}
+  <p>Dog friendly :)</p>
+{{/if}}
 
-  {{#if bbq.dogFriendly}}
-    <p>Dog friendly :)</p>
-  {{/if}}
+<p>Tags: {{bbq.tags}}</p>
 
-  <p>Tags: {{bbq.tags}}</p>
+<hr>
 
-  <hr>
+<h2>Menu</h2>
+<h3>Dishes</h3>
 
-  <h2>Menu</h2>
-  <h3>Dishes</h3>
-
-  <ul>
-    {{#each bbq.dishes}}
-      <li>{{this.name}}</li>
-      <ul>
-        {{#each this.ingredients}}
-          <li>{{this.name}}</li>
-        {{/each}}
-      </ul>
-    {{/each}}
-  </ul>
-
-  <h3>Drinks</h3>
-
-  <ul>
-  {{#each bbq.drinks}}
+<ul>
+  {{#each bbq.dishes}}
     <li>{{this.name}}</li>
+    <ul>
+      {{#each this.ingredients}}
+        <li>{{this.name}}</li>
+      {{/each}}
+    </ul>
   {{/each}}
-  </ul> 
+</ul>
 
-  {{#if bbq.bread}}
-    <p>Bread is included! :)</p>
-  {{/if}} 
+<h3>Drinks</h3>
 
+<ul>
+{{#each bbq.drinks}}
+  <li>{{this.name}}</li>
+{{/each}}
+</ul> 
+
+{{#if bbq.bread}}
+  <p>Bread is included! :)</p>
+{{/if}} 
 
 <script src="../js/bbq-detail.js"></script>
-
 
 <script>
 
@@ -101,8 +94,6 @@
 
     service = new google.maps.places.PlacesService(map);
     service.findPlaceFromQuery(request, callback);
-
-    console.log(map); 
   }
 
   function createMarker(place) {
@@ -124,9 +115,4 @@
 
 </script>
 
-
-{{!-- <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-<script src="/js/bbqs-api.js"></script>
-<script src="/js/bbqs-map.js"></script>
-<script src="/js/init-bbqs-map.js"></script> --}}
 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key={{apiKey}}&libraries=places,geometry&callback=initMap"></script>

@@ -13,11 +13,11 @@ function addDish() {
             </div>
           </div>
           <div class="col">
-            <button type="button" class="btn btn-danger deleteDishButton" onclick="deleteDish(event)">Delete dish</button>
+            <button type="button" class="btn btn-danger deleteDishButton" onclick="deleteDish(event)"><i class="fas fa-minus"></i></button>
           </div>
         </div>
       <label>Ingredients</label>
-      <button type="button" class="btn btn-sm btn-success" id="ingredientButton" onclick="addIngredient(event.target)">Add ingredient</button>
+      <button type="button" class="btn btn-sm btn-success" id="ingredientButton" onclick="addIngredient(event.target)"><i class="fas fa-plus"></i></button>
       <div class="ingredients">
         <div class="form-row">
           <div class="col">
@@ -38,7 +38,7 @@ function addDish() {
             </div>
           </div>
           <div class="col">
-            <button type="button" class="btn btn-danger btn-sm" onclick="deleteIngredient(event.target)">Delete ingredient</button>
+            <button type="button" class="btn btn-danger btn-sm" onclick="deleteIngredient(event.target)"><i class="fas fa-minus"></i></button>
           </div>
         </div>
       </div>
@@ -76,7 +76,7 @@ function addIngredient(target) {
         </div>
       </div>
       <div class="col">
-        <button type="button" class="btn btn-danger btn-sm" onclick="deleteIngredient(event.target)">Delete ingredient</button>
+        <button type="button" class="btn btn-danger btn-sm" onclick="deleteIngredient(event.target)"><i class="fas fa-minus"></i></button>
       </div>
     </div>`;
   $(target).siblings('.ingredients').append(ingredient);
@@ -109,7 +109,7 @@ function addDrink() {
         </div>
       </div>
       <div class="col">
-        <button type="button" class="btn btn btn-danger deleteDrinkButton" onclick="deleteDrink(event.target)">Delete drink</button>
+        <button type="button" class="btn btn btn-danger deleteDrinkButton" onclick="deleteDrink(event.target)"><i class="fas fa-minus"></i></button>
       </div>
     </div>`;
   $("#drinks").find('.card-body').append(drink);
