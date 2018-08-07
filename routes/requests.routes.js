@@ -7,4 +7,6 @@ router.post('/create', authMiddleware.isAuthenticated, authMiddleware.isActive, 
 
 router.get('/accept', authMiddleware.isAuthenticated, authMiddleware.isActive, requestsController.doAccept);
 
+router.get('/pay', authMiddleware.isAuthenticated, authMiddleware.isActive, requestsController.pay);
+
 module.exports = router;

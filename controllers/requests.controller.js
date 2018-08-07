@@ -22,7 +22,7 @@ module.exports.doCreate = (req, res, next) => {
               .then(bbq => {
                 User.findById(bbq.user)
                   .then(user => {
-                    mailer.newRequest(request._id, req.user, bbq, user.email);
+                    mailer.newRequest(request, req.user, bbq, user.email);
                     console.log(`Email sent to ${user.email}: new request`);
                     res.redirect(`/bbqs/${request.bbq}`);
                   })                
@@ -51,13 +51,58 @@ module.exports.doAccept = (req, res, next) => {
       } else {
         Request.findByIdAndUpdate(req.query.id, {status: 'accepted'})
           .then(request => {
-            console.log(`Request accepted: ${request.req.query.id}`);            
-            res.redirect(`../bbqs/${request.bbq}`);
-            // mailer.acceptedRequest(request._id, req.user, bbq, user.email);
-            mailer.acceptedRequest();
-            console.log(`Email sent to ¿?: accepted ...`);
+            console.log(`Request accepted: ${req.query.id}`);
+            User.findById(request.user)
+              .then(user => {
+                mailer.acceptedRequest(request, user.email);
+                console.log(`Email sent to ${user.email}: request accepted: ${request}`);
+                res.redirect(`/bbqs/${request.bbq}`);
+              })    
           })
       }
-    })
-  
+    })  
 }
+
+module.exports.pay = (req, res, next) => {
+  Request.findById(req.query.id)
+    .then(request => {
+      if (!request) {
+        console.error('intento de pay request FAIL:', req.query.id)
+      } else {
+        Request.findByIdAndUpdate(req.query.id, {status: 'confirmed'})
+          .then(request => {
+            console.log(`Request confirmed: ${req.query.id}`);
+            User.findById(request.user)
+              .then(user => {
+                mailer.confirmedRequest(request, user.email);
+                console.log(`Email sent to ${user.email}: request confirmed: ${request}`);
+                res.redirect(`/bbqs/${request.bbq}`);
+              })    
+          })
+      }
+    })  
+}
+
+// module.exports.pay = (req, res, next) => {
+//   Request.findById(req.query.id)
+//     .then(request => {
+//       if (!request) {
+//         console.error('intento de accept request FAIL:', req.query.id)
+//       } else {
+//         Request.findByIdAndUpdate(req.query.id, {status: 'confirmed'})
+//           .then(request => {
+//             User.findById(request.user)
+//               .then(user => {
+//                 mailer.confirmed(request._id, user.email);
+//                 console.log(`Email sent to ${user.email}: confirmed`);
+//                 res.redirect(`/bbqs/${request.bbq}`);
+//               })
+//             console.log(`Request confirmed: ${req.query.id}`);            
+//             res.redirect(`../bbqs/${request.bbq}`);
+//             mailer.acceptedRequest(request._id, req.user, bbq, user.email);
+//             mailer.acceptedRequest();
+//             console.log(`Email sent to ¿?: accepted ...`);
+//           })
+//       }
+//     })  
+// }
