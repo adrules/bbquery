@@ -22,6 +22,9 @@
           <small><strong>{{message}}</strong></small>
         {{/if}}
       </p>
+      {{#if url}}
+        <input type="hidden" name="url" value="{{url}}"/>
+      {{/if}}
     </form>
   </div>
 </div>
