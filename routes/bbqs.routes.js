@@ -8,6 +8,8 @@ router.post('/create', authMiddleware.isAuthenticated, authMiddleware.isActive, 
 
 router.get('/locations', bbqsController.getBbqsLocations);
 
+router.post('/review', bbqsController.review);
+
 router.get('/list', bbqsController.list);
 router.get('/', bbqsController.list);
 
