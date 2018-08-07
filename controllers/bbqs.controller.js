@@ -71,7 +71,10 @@ module.exports.get = (req, res, next) => {
             .then(request => {
               if (request) {
                 bbq.requested = true;
-              }
+                if (request.status === 'confirmed' && request.user.equals(req.user._id)) {
+                  bbq.paid = true;
+                }
+              }              
               res.render('bbqs/detail', {
                 bbq, 
                 apiKey: process.env.GPLACES_API_KEY
@@ -79,7 +82,7 @@ module.exports.get = (req, res, next) => {
             })
         } else {
           res.render('bbqs/detail', {
-            bbq,
+            bbq, 
             apiKey: process.env.GPLACES_API_KEY
           });
         }
