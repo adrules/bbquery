@@ -14,7 +14,7 @@
       <a class="btn btn-primary" href="../sessions/login">Wanna Join? Login!</a>
     {{/if}}
   </h1>
-  <p><span class="font-weight-bold">Date:</span> {{bbq.date}}</p>
+  <p><span class="font-weight-bold">Date:</span> {{moment bbq.date}} </p>
   <p><span class="font-weight-bold">Organizer</span> <a href="../users/{{bbq.user.id}}">@{{bbq.user.firstName}}</a> wants to remember this:</p>
   <p class="font-italic">"{{bbq.description}}"</p>
 <div>
