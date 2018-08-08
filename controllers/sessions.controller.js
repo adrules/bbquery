@@ -30,7 +30,9 @@ module.exports.doLogin = (req, res, next) => {
           if (error) {
             next(error)
           } else {
-            res.redirect('/');
+            let url = req.body.url ? req.body.url : '/';
+            console.log(url);
+            res.redirect(url);
           }
         });
       }

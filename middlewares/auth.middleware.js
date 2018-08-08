@@ -5,7 +5,7 @@ module.exports.isAuthenticated = (req, res, next) => {
     next()
   } else {
     res.status(401)
-      .redirect('/sessions/login');
+      .render('../views/sessions/login', {url: req.originalUrl});
   }
 }
 
