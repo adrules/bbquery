@@ -24,7 +24,7 @@ class BbqsMap {
     this.map = new google.maps.Map(containerDOMElement, mapOptions);
   }
 
-  addBbq(bbq) {
+  addBbq(bbq) {    
     let newBbq = new google.maps.Marker({
       position: {
         lat: bbq.lat,

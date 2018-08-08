@@ -73,6 +73,39 @@
   <p>Bread is included! :)</p>
 {{/if}} 
 
+<hr>
+
+{{#if session}}
+<form action="/bbqs/review" method="POST">
+  <div class="input-group">
+    <input type="radio" name="rate" value="1"> 1
+    <input type="radio" name="rate" value="2"> 2
+    <input type="radio" name="rate" value="3" checked="checked"> 3
+    <input type="radio" name="rate" value="4"> 4
+    <input type="radio" name="rate" value="5"> 5
+  </div>
+  <br>
+  <input type="text" value="{{bbq.user._id}}" name="reviewed" hidden>
+  <input type="text" value="{{bbq._id}}" name="bbqid" hidden>
+  <br>
+  <div class="input-group">
+    <textarea class="form-control" placeholder="Place your comment here" name="review"></textarea>
+  </div>
+  <br>
+  <button type="submit" class="btn btn-primary">Comment</button>
+</form>
+{{/if}}
+
+
+<h2>Comments</h2>
+<ul class="list-unstyled">
+  <li class="media">
+    {{#each bbq.reviews as |review|}}
+      {{> bbqReview review }}
+    {{/each}}
+  </li>
+</ul>
+
 <script src="../js/bbq-detail.js"></script>
 
 <script>
@@ -82,7 +115,7 @@
   var infowindow;
 
   function initMap() {
-    var mapCenter = new google.maps.LatLng({{bbq.longitude}},{{bbq.latitude}});
+    var mapCenter = new google.maps.LatLng({{bbq.latitude}},{{bbq.longitude}});
 
     map = new google.maps.Map(document.getElementById('map'), {
       center: mapCenter,
