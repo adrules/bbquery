@@ -12,8 +12,9 @@ module.exports.doCreate = (req, res, next) => {
   req.body.user = req.user._id;
   const bbq = new Bbq(req.body);
   bbq.save()
-    .then((newBbq) => {
-      res.redirect(`${newBbq.id}`);
+    .then(bbq => {
+      console.log('bbq created!', bbq._id);
+      res.redirect(`${bbq._id}`);
     })
     .catch(error => {
       if (error instanceof mongoose.Error.ValidationError) {
@@ -81,7 +82,10 @@ module.exports.get = (req, res, next) => {
             .then(request => {
               if (request) {
                 bbq.requested = true;
-              }
+                if (request.status === 'confirmed' && request.user.equals(req.user._id)) {
+                  bbq.paid = true;
+                }
+              }              
               res.render('bbqs/detail', {
                 bbq, 
                 apiKey: process.env.GPLACES_API_KEY
@@ -89,7 +93,7 @@ module.exports.get = (req, res, next) => {
             })
         } else {
           res.render('bbqs/detail', {
-            bbq,
+            bbq, 
             apiKey: process.env.GPLACES_API_KEY
           });
         }

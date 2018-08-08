@@ -29,6 +29,7 @@ module.exports.doCreate = (req, res, next) => {
         return user.save()
           .then(user => {
             mailer.confirmSignUp(user);
+            console.log(`Email sent to ${user.email}: Activation`);
             res.render('sessions/login', {message: "User created! Please check your email to activate it"});
           });
       }
@@ -61,7 +62,7 @@ module.exports.activate = (req, res, next) => {
           user.set({ active: true });
           User.findByIdAndUpdate(req.query.user, {active: true})
             .then(() => {
-              console.log(`User ${user.email} activated!! :)`);
+              console.log(`User ${user._id} activated!! :)`);
               res.render('sessions/login', {message: "User activated! Please login"});
             })
             .catch(error => console.log(error))

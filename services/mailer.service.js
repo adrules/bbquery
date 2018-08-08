@@ -22,3 +22,43 @@ module.exports.confirmSignUp = (user) => {
     html: `${message}`
   })
 }
+
+module.exports.newRequest = (request, user, bbq, email) => {
+  const query = `http://localhost:3000/requests/accept?id=${request._id}`;
+  const message = 
+  `Hi! The user <a href="http://localhost:3000/users/${user._id}" target="_blank"> ${user.firstName} ${user.lastName}</a> wants to join your bbq "${bbq.name}".<br>
+  A message to you were attached: "${request.message}"<br>
+  <a href="${query}" target="_blank">Click here to accept the request.<a> or ignore this email if you don't want to.`;
+  transporter.sendMail({
+    from: '"BBQuery App" <bbquery.app@gmail.com>',
+    to: email, 
+    subject: `${user.firstName} ${user.lastName} wants to join your bbq!`, 
+    text: message,
+    html: `${message}`
+  })
+}
+
+module.exports.acceptedRequest = (request, email) => {
+  const query = `http://localhost:3000/requests/pay?id=${request._id}`;
+  const message = 
+  `Congratulations! You have been accepted to do the <a href="http://localhost:3000/bbqs/${request.bbq}" target="_blank">BBQ</a> thing.<br>
+  <a href="${query}" target="_blank">Click here to pay via Paypal.<a>`;
+  transporter.sendMail({
+    from: '"BBQuery App" <bbquery.app@gmail.com>',
+    to: email, 
+    subject: `You were accepted!`, 
+    text: message,
+    html: `${message}`
+  })
+}
+
+module.exports.confirmedRequest = (request, email) => {
+  const message = `Congratulations! Your Paypal payment has been confirmed, <a href="http://localhost:3000/bbqs/${request.bbq}" target="_blank">you are ready to go!</a>`;
+  transporter.sendMail({
+    from: '"BBQuery App" <bbquery.app@gmail.com>',
+    to: email, 
+    subject: `Your payment was confirmed!`, 
+    text: message,
+    html: `${message}`
+  })
+}

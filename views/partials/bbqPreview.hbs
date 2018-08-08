@@ -20,6 +20,9 @@
     <img class="card-img-top" src="https://www.beaucettemarina.com/wp-content/uploads/2016/07/BBQ-Image.jpg" alt="{{ this.name }}">
   </a>
   <div class="card-body">
-    <p class="card-text">{{ this.name }} <small>- {{ this.date }} - 5 kms away</small></p>
+    <p class="card-text">{{ this.name }} 
+      <small>- 5 kms away by <a href="users/{{this.user._id}}" target="_blank">@{{this.user.firstName}}</a></small><br>
+    <small>{{moment this.date}}</small>    
+    </p>
   </div>
 </div>
