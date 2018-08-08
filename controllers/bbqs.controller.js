@@ -44,7 +44,7 @@ module.exports.list = (req, res, next) => {
 module.exports.getBbqsLocations = (req, res, next) => {
   Bbq.find()
     .then(bbqs => {
-
+      
       let bbqsLocation = bbqs.map(bbq => {
         return { 
           lat: bbq.location.coordinates[0],
