@@ -51,7 +51,8 @@ module.exports.getBbqsLocations = (req, res, next) => {
       let bbqsLocation = bbqs.map(bbq => {
         return { 
           lat: bbq.location.coordinates[0],
-          lng: bbq.location.coordinates[1]
+          lng: bbq.location.coordinates[1],
+          bbqId: bbq._id
         }});
         
       res.json({ data: bbqsLocation });
