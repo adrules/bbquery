@@ -2,6 +2,7 @@ const createError = require('http-errors');
 const mongoose = require('mongoose');
 const Bbq = require('../models/bbq.model');
 const Request = require('../models/request.model');
+const Picture = require('../models/picture.model');
 
 module.exports.create = (req, res, next) => {
   res.render('bbqs/create', { apiKey: process.env.GPLACES_API_KEY });
@@ -10,7 +11,16 @@ module.exports.create = (req, res, next) => {
 module.exports.doCreate = (req, res, next) => {
   req.body.user = req.user._id;
   const bbq = new Bbq(req.body);
-  bbq.save()
+  console.log('req.body.photo', req.body.photo);
+  console.log('req.file', req.file);
+  const pic = new Picture({
+    name: req.body.photo,
+    path: `/uploads/${req.file.filename}`,
+    originalName: req.file.originalname
+  });
+  pic.save((err) => {
+    console.log('picture saved!');
+    bbq.save()
     .then((newBbq) => {
       res.redirect(`${newBbq.id}`);
     })
@@ -25,6 +35,7 @@ module.exports.doCreate = (req, res, next) => {
         next(error);
       }
     });
+  });  
 }
 
 module.exports.list = (req, res, next) => {
@@ -97,4 +108,17 @@ module.exports.get = (req, res, next) => {
         next(error);
       }
     });
+}
+
+module.exports.upload = (req, res, next) => {
+  console.log('upload enter');
+  const pic = new Picture({
+    name: req.body.photo,
+    path: `/uploads/${req.file.filename}`,
+    originalName: req.file.originalname
+  });
+
+  pic.save((err) => {
+      res.redirect('/');
+  });
 }
