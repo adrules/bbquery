@@ -17,7 +17,8 @@ module.exports.doCreate = (req, res, next) => {
   console.log(bbq);
   bbq.save()
     .then(bbq => {
-      res.redirect(`${bbq.id}`);
+      console.log('bbq created!', bbq._id);
+      res.redirect(`${bbq._id}`);
     })
     .catch(error => {
       if (error instanceof mongoose.Error.ValidationError) {

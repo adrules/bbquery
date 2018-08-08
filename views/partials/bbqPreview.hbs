@@ -25,6 +25,9 @@
   {{/if}}
   </a>
   <div class="card-body">
-    <p class="card-text">{{ this.name }} <small>- {{this.date}} - 5 kms away</small></p>
+    <p class="card-text">{{ this.name }} 
+      <small>- 5 kms away by <a href="users/{{this.user._id}}" target="_blank">@{{this.user.firstName}}</a></small><br>
+    <small>{{moment this.date}}</small>    
+    </p>
   </div>
 </div>
