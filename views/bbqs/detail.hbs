@@ -1,5 +1,12 @@
   
 <div>
+  {{#each bbq.requests}}
+    <li>{{this.user}}</li>
+    <li>{{this.status}}</li>
+  {{/each}}
+</div>
+
+<div>
   {{#if bbq.photo}}
     <img src="../images/bbqs/uploads/{{bbq.photo}}" class="img-fluid" alt="Responsive image">
   {{else}}

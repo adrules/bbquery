@@ -79,12 +79,19 @@ module.exports.get = (req, res, next) => {
           if (bbq.user.equals(req.user._id)) {
             bbq.organizer = true;
           }
-          Request.findOne({ user: req.user._id, bbq: bbq._id })
-            .then(request => {
-              if (request) {
-                bbq.requested = true;
-                if (request.status === 'confirmed' && request.user.equals(req.user._id)) {
-                  bbq.paid = true;
+          Request.find({bbq: bbq._id })
+            .then(requests => {
+              if (requests) {
+                bbq.requests = requests;
+                console.log(bbq.requests);
+                console.log(req.user._id);
+                let ownerRequest = bbq.requests.find(function(request){ return request.user.equals(req.user._id)});
+                console.log('owner request: ', ownerRequest)
+                if (ownerRequest) {
+                  bbq.requested = true;
+                  if (ownerRequest.status === 'confirmed') {
+                    bbq.paid = true;
+                  }
                 }
               }              
               res.render('bbqs/detail', {
@@ -133,4 +140,10 @@ module.exports.review = (req, res, next) => {
       }
     })
     .catch(error => {next(error)});
+}
+
+function parseRequests(requests) {
+  requests.reduce(function(obj, curr){
+    
+  })
 }
