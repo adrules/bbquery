@@ -5,7 +5,7 @@ module.exports = (hbs) => {
         return JSON.stringify(context);
     });
 
-    hbs.registerHelper('datetime', function (date) {
-        return date ? date.toLocaleDateString() : undefined;
+    hbs.registerHelper('moment', function (date) {
+        return date ? moment(date).format('LLLL') : undefined;
     });
 }

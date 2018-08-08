@@ -11,8 +11,9 @@ module.exports.doCreate = (req, res, next) => {
   req.body.user = req.user._id;
   const bbq = new Bbq(req.body);
   bbq.save()
-    .then((newBbq) => {
-      res.redirect(`${newBbq.id}`);
+    .then(bbq => {
+      console.log('bbq created!', bbq._id);
+      res.redirect(`${bbq._id}`);
     })
     .catch(error => {
       if (error instanceof mongoose.Error.ValidationError) {
