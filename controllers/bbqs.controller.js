@@ -11,6 +11,8 @@ module.exports.create = (req, res, next) => {
 module.exports.doCreate = (req, res, next) => {
   req.body.user = req.user._id;
   const bbq = new Bbq(req.body);
+  console.log('picture saved!');
+  bbq.photo = req.file.filename;
   bbq.save()
     .then(bbq => {
       console.log('bbq created!', bbq._id);
@@ -69,7 +71,6 @@ module.exports.get = (req, res, next) => {
         Review.find({ bbqReviewed: bbq._id })
           .populate('userReviewer')
           .then(reviews => {
-            console.log(reviews);
             bbq.reviews = reviews;
           })
           .catch(error => next(error));

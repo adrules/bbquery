@@ -17,7 +17,12 @@
 
 <div class="card" style="width: 18rem;">
   <a href="/bbqs/{{ this._id }}">
+
+  {{#if this.photo}}
+    <img class="card-img-top" src="../images/bbqs/uploads/{{this.photo}}" class="img-fluid" alt="{{ this.name }}">
+  {{else}}
     <img class="card-img-top" src="https://www.beaucettemarina.com/wp-content/uploads/2016/07/BBQ-Image.jpg" alt="{{ this.name }}">
+  {{/if}}
   </a>
   <div class="card-body">
     <p class="card-text">{{ this.name }} 
