@@ -1,6 +1,10 @@
   
 <div>
-  <img src="https://images.unsplash.com/photo-1523301343968-6a6ebf63c672?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=675d706c330862ec0a0b01703de8abba&auto=format&fit=crop&w=1950&q=80" class="img-fluid" alt="Responsive image">
+  {{#if bbq.photo}}
+    <img src="../images/bbqs/uploads/{{bbq.photo}}" class="img-fluid" alt="Responsive image">
+  {{else}}
+    <img src="https://images.unsplash.com/photo-1523301343968-6a6ebf63c672?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=675d706c330862ec0a0b01703de8abba&auto=format&fit=crop&w=1950&q=80" class="img-fluid" alt="Responsive image">
+  {{/if}}
   <h1>{{bbq.name}}
     {{#if bbq.paid}}
       <button class="btn btn-success" disabled>You are confirmed!</button>

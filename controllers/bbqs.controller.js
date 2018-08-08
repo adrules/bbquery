@@ -11,18 +11,13 @@ module.exports.create = (req, res, next) => {
 module.exports.doCreate = (req, res, next) => {
   req.body.user = req.user._id;
   const bbq = new Bbq(req.body);
-  console.log('req.body.photo', req.body.photo);
   console.log('req.file', req.file);
-  const pic = new Picture({
-    name: req.body.photo,
-    path: `/uploads/${req.file.filename}`,
-    originalName: req.file.originalname
-  });
-  pic.save((err) => {
-    console.log('picture saved!');
-    bbq.save()
-    .then((newBbq) => {
-      res.redirect(`${newBbq.id}`);
+  console.log('picture saved!');
+  bbq.photo = req.file.filename;
+  console.log(bbq);
+  bbq.save()
+    .then(bbq => {
+      res.redirect(`${bbq.id}`);
     })
     .catch(error => {
       if (error instanceof mongoose.Error.ValidationError) {
@@ -35,7 +30,6 @@ module.exports.doCreate = (req, res, next) => {
         next(error);
       }
     });
-  });  
 }
 
 module.exports.list = (req, res, next) => {

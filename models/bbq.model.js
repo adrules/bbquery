@@ -44,8 +44,8 @@ const bbqSchema = new mongoose.Schema({
   tags: {
     type: [String]
   },
-  photos: {
-    type: [String]
+  photo: {
+    type: String
   },
   maxAttendees: {
     type: Number,

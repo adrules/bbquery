@@ -3,7 +3,7 @@ const router = express.Router();
 const bbqsController = require('../controllers/bbqs.controller');
 const authMiddleware = require('../middlewares/auth.middleware');
 const multer = require('multer');
-const upload = multer({ dest: 'public/images/bbqs/uploads' });
+const upload = multer({ dest: './public/images/bbqs/uploads' });
 // var cloudinary = require('cloudinary');
 // var cloudinaryStorage = require('multer-storage-cloudinary');
 
