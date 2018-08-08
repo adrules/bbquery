@@ -2,7 +2,7 @@ const createError = require('http-errors');
 const mongoose = require('mongoose');
 const Bbq = require('../models/bbq.model');
 const Request = require('../models/request.model');
-const Picture = require('../models/picture.model');
+const Review = require('../models/review.model');
 
 module.exports.create = (req, res, next) => {
   res.render('bbqs/create', { apiKey: process.env.GPLACES_API_KEY });
@@ -11,10 +11,8 @@ module.exports.create = (req, res, next) => {
 module.exports.doCreate = (req, res, next) => {
   req.body.user = req.user._id;
   const bbq = new Bbq(req.body);
-  console.log('req.file', req.file);
   console.log('picture saved!');
   bbq.photo = req.file.filename;
-  console.log(bbq);
   bbq.save()
     .then(bbq => {
       console.log('bbq created!', bbq._id);
@@ -49,7 +47,7 @@ module.exports.list = (req, res, next) => {
 module.exports.getBbqsLocations = (req, res, next) => {
   Bbq.find()
     .then(bbqs => {
-
+      
       let bbqsLocation = bbqs.map(bbq => {
         return { 
           lat: bbq.location.coordinates[0],
@@ -69,6 +67,14 @@ module.exports.get = (req, res, next) => {
       if (bbq) {
         bbq.latitude = bbq.location.coordinates[0];
         bbq.longitude = bbq.location.coordinates[1];
+
+        Review.find({ bbqReviewed: bbq._id })
+          .populate('userReviewer')
+          .then(reviews => {
+            bbq.reviews = reviews;
+          })
+          .catch(error => next(error));
+
         if (req.user) {
           if (bbq.user.equals(req.user._id)) {
             bbq.organizer = true;
@@ -105,15 +111,26 @@ module.exports.get = (req, res, next) => {
     });
 }
 
-module.exports.upload = (req, res, next) => {
-  console.log('upload enter');
-  const pic = new Picture({
-    name: req.body.photo,
-    path: `/uploads/${req.file.filename}`,
-    originalName: req.file.originalname
-  });
-
-  pic.save((err) => {
-      res.redirect('/');
-  });
+module.exports.review = (req, res, next) => {
+  Review.findOne({ bbqReviewed: req.body.bbqid, userReviewer: req.user._id })
+    .then(review => {
+      if (!review) {
+        new Review({
+          bbqReviewed: req.body.bbqid,
+          userReviewer: req.user._id,
+          userReviewed: req.body.reviewed,
+          rate: req.body.rate,
+          message: req.body.review
+        }).save()
+          .then(review => {
+            console.log(`${review.message} saved!`);
+            res.redirect(`/bbqs/${req.body.bbqid}`);
+          })
+          .catch(error => {next(error)});
+      } else {
+        console.log('YO! you already reviewed this BBQ');
+        res.redirect(`/bbqs/${req.body.bbqid}`);
+      }
+    })
+    .catch(error => {next(error)});
 }

@@ -31,7 +31,6 @@ module.exports.doLogin = (req, res, next) => {
             next(error)
           } else {
             let url = req.body.url ? req.body.url : '/';
-            console.log(url);
             res.redirect(url);
           }
         });

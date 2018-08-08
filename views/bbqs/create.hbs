@@ -11,8 +11,8 @@
   </div>
 
   <input type="hidden" id="location" name="location[type]" value="Point"/>
-  <input type="hidden" id="longitude" name="location[coordinates]" />
   <input type="hidden" id="latitude" name="location[coordinates]" />
+  <input type="hidden" id="longitude" name="location[coordinates]" />
 
   <div class="form-group">
     <label for="exampleInputPassword1">Date</label>
@@ -87,4 +87,4 @@
 <script src="../js/gPlacesAutocomplete.js"></script>
 <script src="../js/bbq-create.js"></script>
 
-<script src="https://maps.googleapis.com/maps/api/js?key={{apiKey}}&libraries=places&callback=initAutocomplete" async defer></script>
+<script src="https://maps.googleapis.com/maps/api/js?key={{this.apiKey}}&libraries=places&callback=initAutocomplete" async defer></script>

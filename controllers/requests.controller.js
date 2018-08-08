@@ -82,27 +82,3 @@ module.exports.pay = (req, res, next) => {
       }
     })  
 }
-
-// module.exports.pay = (req, res, next) => {
-//   Request.findById(req.query.id)
-//     .then(request => {
-//       if (!request) {
-//         console.error('intento de accept request FAIL:', req.query.id)
-//       } else {
-//         Request.findByIdAndUpdate(req.query.id, {status: 'confirmed'})
-//           .then(request => {
-//             User.findById(request.user)
-//               .then(user => {
-//                 mailer.confirmed(request._id, user.email);
-//                 console.log(`Email sent to ${user.email}: confirmed`);
-//                 res.redirect(`/bbqs/${request.bbq}`);
-//               })
-//             console.log(`Request confirmed: ${req.query.id}`);            
-//             res.redirect(`../bbqs/${request.bbq}`);
-//             mailer.acceptedRequest(request._id, req.user, bbq, user.email);
-//             mailer.acceptedRequest();
-//             console.log(`Email sent to ¿?: accepted ...`);
-//           })
-//       }
-//     })  
-// }
