@@ -10,14 +10,17 @@
     {{else bbq.requested}}
       <button class="btn btn-primary" disabled>Waiting confirmation...</button>
     {{else bbq.organizer}}
-      <button class="btn btn-primary" disabled>Edit</button>
+      <button class="btn btn-danger" disabled>Cancel</button>
     {{else session}}
       <button class="btn btn-primary" id="join">Join BBQ!</button>
     {{else}}      
       <a class="btn btn-primary" href="../sessions/login">Wanna Join? Login!</a>
     {{/if}}
   </h1>
-  <p><span class="font-weight-bold">Date:</span> {{moment bbq.date}} </p>
+  {{#if bbq.paid}}
+  <p><span class="font-weight-bold">Address:</span>{{bbq.address}}</p>
+  {{/if}}
+  <p><span class="font-weight-bold">Date:</span>{{moment bbq.date}}</p>
   <p><span class="font-weight-bold">Organizer</span> <a href="../users/{{bbq.user.id}}">@{{bbq.user.firstName}}</a> wants to remember this:</p>
   <p class="font-italic">"{{bbq.description}}"</p>
 <div>
@@ -124,7 +127,6 @@
 </form>
 {{/if}}
 
-
 <h2>Comments</h2>
 <ul class="list-unstyled">
   <li class="media">
@@ -135,8 +137,13 @@
 </ul>
 
 <script src="../js/bbq-detail.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script src="/js/bbqs-api.js"></script>
+<script src="/js/bbqs-map.js"></script>
+<script src="/js/init-bbqs-map.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key={{apiKey}}&callback=initMap" async defer></script>
 
-<script>
+{{!-- <script>
 
   var map;
   var service;
@@ -178,4 +185,6 @@
 
 </script>
 
-<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key={{apiKey}}&libraries=places,geometry&callback=initMap"></script>
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key={{apiKey}}&libraries=places,geometry&callback=initMap"></script> --}}
+
+
