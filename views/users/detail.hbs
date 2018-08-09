@@ -1,1 +1,31 @@
-Hola {{user.firstName}}!
+{{!-- {{ results }} --}}
+
+
+<h1>{{userData.user.firstName}} profile</h1>
+
+{{#if userData.bbqsOrg}}
+<h3>I've organized these BBQs</h3>
+<div class="bbqs-container">
+    {{#each userData.bbqsOrg as |bbq|}}
+        {{> bbqPreview bbq}}
+    {{/each}}
+</div>
+{{/if}}
+
+{{#if userData.bbqsAtt}}
+    <h3>I've attend to these BBQs:</h3>
+    {{#each bbqsAtt as |bbq|}}
+        {{> bbqPreview bbq}}
+    {{/each}}
+{{/if}}
+
+{{#if userData.reviews}}
+<div class="reviews-container">
+<h3>What people say about me:</h3>
+    <ul class="list-unstyled">
+        {{#each userData.reviews as |review|}}
+            {{> bbqReview review }}
+        {{/each}}
+    </ul>
+</div>
+{{/if}}

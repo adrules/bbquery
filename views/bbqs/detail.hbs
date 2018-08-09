@@ -103,11 +103,9 @@
 
 <h2>Comments</h2>
 <ul class="list-unstyled">
-  <li class="media">
-    {{#each bbq.reviews as |review|}}
-      {{> bbqReview review }}
-    {{/each}}
-  </li>
+  {{#each bbq.reviews as |review|}}
+    {{> bbqReview review }}
+  {{/each}}
 </ul>
 
 <script src="../js/bbq-detail.js"></script>
