@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const Bbq = require('../models/bbq.model');
 const Request = require('../models/request.model');
 const Review = require('../models/review.model');
+const cloudinary = require('cloudinary');
 
 module.exports.create = (req, res, next) => {
   res.render('bbqs/create', { apiKey: process.env.GPLACES_API_KEY });
@@ -11,24 +12,27 @@ module.exports.create = (req, res, next) => {
 module.exports.doCreate = (req, res, next) => {
   req.body.user = req.user._id;
   const bbq = new Bbq(req.body);
-  console.log('picture saved!');
-  bbq.photo = req.file.filename;
-  bbq.save()
-    .then(bbq => {
-      console.log('bbq created!', bbq._id);
-      res.redirect(`${bbq._id}`);
-    })
-    .catch(error => {
-      if (error instanceof mongoose.Error.ValidationError) {
-        console.error(error);
-        res.render('bbqs/create', { 
-          bbq: bbq,
-          errors: error.errors
-        });
-      } else {
-        next(error);
-      }
-    });
+  cloudinary.uploader.upload(req.file.path, function(result) { 
+    console.log('picture saved to cloudinary!');
+    console.log(result);
+    bbq.photo = result.url;
+    bbq.save()
+      .then(bbq => {
+        console.log('bbq created!', bbq);
+        res.redirect(`${bbq._id}`);
+      })
+      .catch(error => {
+        if (error instanceof mongoose.Error.ValidationError) {
+          console.error(error);
+          res.render('bbqs/create', { 
+            bbq: bbq,
+            errors: error.errors
+          });
+        } else {
+          next(error);
+        }
+      });
+    });  
 }
 
 module.exports.list = (req, res, next) => {
