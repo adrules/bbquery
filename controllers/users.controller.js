@@ -1,6 +1,9 @@
 const createError = require('http-errors');
 const mongoose = require('mongoose');
 const User = require('../models/user.model');
+const Bbq = require('../models/bbq.model');
+const Review = require('../models/review.model');
+const Request = require('../models/request.model');
 
 const mailer = require('../services/mailer.service');
 
@@ -78,7 +81,25 @@ module.exports.get = (req, res, next) => {
   User.findById(req.params.id)
     .then(user => {
       if (user) {
-        res.render('users/detail', { user });
+        Promise.all([
+          Bbq.find({user: user._id}),
+          Review.find({userReviewed: user._id}).populate('userReviewer'),
+          Request.find({user: user._id}, {bbq: true}).populate('bbq')
+        ])
+        .then(results => {
+
+          const [bbqsOrg, reviews, requests] = results;
+
+          let userData = {
+            user: user,
+            bbqsOrg: bbqsOrg,
+            reviews: reviews,
+            bbqsAtt: requests
+          }
+          
+          res.render('users/detail', { userData });
+        })
+        .catch(error => next(error));
       } else {
         res.redirect(`/`);
       }
