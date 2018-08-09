@@ -1,4 +1,3 @@
-  
 <div>
   {{#if bbq.photo}}
     <img src="../images/bbqs/uploads/{{bbq.photo}}" class="img-fluid" alt="Responsive image">
@@ -11,14 +10,17 @@
     {{else bbq.requested}}
       <button class="btn btn-primary" disabled>Waiting confirmation...</button>
     {{else bbq.organizer}}
-      <button class="btn btn-primary" disabled>Edit</button>
+      <button class="btn btn-danger" disabled>Cancel</button>
     {{else session}}
       <button class="btn btn-primary" id="join">Join BBQ!</button>
     {{else}}      
       <a class="btn btn-primary" href="../sessions/login">Wanna Join? Login!</a>
     {{/if}}
   </h1>
-  <p><span class="font-weight-bold">Date:</span> {{moment bbq.date}} </p>
+  {{#if bbq.paid}}
+  <p><span class="font-weight-bold">Address:</span>{{bbq.address}}</p>
+  {{/if}}
+  <p><span class="font-weight-bold">Date:</span>{{moment bbq.date}}</p>
   <p><span class="font-weight-bold">Organizer</span> <a href="../users/{{bbq.user.id}}">@{{bbq.user.firstName}}</a> wants to remember this:</p>
   <p class="font-italic">"{{bbq.description}}"</p>
 <div>
@@ -28,9 +30,34 @@
     <input type="text" name="bbq" value="{{bbq._id}}" hidden>
     <div id="request"></div>
   </form>
-</div> 
+</div>
 
-<div id="map"></div>
+<div class="container">
+{{#if session}}
+  <div class="row mb-3">
+    <div class="col-sm-12 col-lg-9 mb-3">
+      <div id="map"></div>
+    </div>
+
+    <div class="col-sm-12 col-lg-3">
+      <ul class="list-group">
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+          List of attendees
+        </li>
+        {{#each bbq.requests}}
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            <a href="../users/{{this.user._id}}">@{{this.user.firstName}}</a>
+            <span class="badge badge-primary badge-pill">{{this.status}}</span>
+          </li>
+        {{/each}}
+      </ul>
+    </div>
+
+  </div>
+{{else}}
+  <div id="map" class="mb-3"></div>
+{{/if}}
+</div>
 
 <p>Price: {{bbq.ppp}}€ per person</p>
 
@@ -100,7 +127,6 @@
 </form>
 {{/if}}
 
-
 <h2>Comments</h2>
 <ul class="list-unstyled">
   {{#each bbq.reviews as |review|}}
@@ -109,8 +135,13 @@
 </ul>
 
 <script src="../js/bbq-detail.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script src="/js/bbqs-api.js"></script>
+<script src="/js/bbqs-map.js"></script>
+<script src="/js/init-bbqs-map.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key={{apiKey}}&callback=initMap" async defer></script>
 
-<script>
+{{!-- <script>
 
   var map;
   var service;
@@ -152,4 +183,6 @@
 
 </script>
 
-<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key={{apiKey}}&libraries=places,geometry&callback=initMap"></script>
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key={{apiKey}}&libraries=places,geometry&callback=initMap"></script> --}}
+
+

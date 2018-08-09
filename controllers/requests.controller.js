@@ -49,7 +49,7 @@ module.exports.doAccept = (req, res, next) => {
       if (!request) {
         console.error('intento de accept request FAIL:', req.query.id)
       } else {
-        Request.findByIdAndUpdate(req.query.id, {status: 'accepted'})
+        Request.findByIdAndUpdate(req.query.id, {status: 'waiting for payment'})
           .then(request => {
             console.log(`Request accepted: ${req.query.id}`);
             User.findById(request.user)
