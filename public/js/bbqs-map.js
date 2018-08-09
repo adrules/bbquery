@@ -25,12 +25,22 @@ class BbqsMap {
   }
 
   addBbq(bbq) {    
-    let newBbq = new google.maps.Marker({
-      position: {
+    let newBbq = new google.maps.Circle({
+      strokeColor: '#343a40',
+      strokeOpacity: 0.8,
+      strokeWeight: 1.5,
+      fillColor: '#343a40',
+      fillOpacity: 0.35,
+      map: this.map,
+      center: {
         lat: bbq.lat,
         lng: bbq.lng
       },
-      map: this.map
+      radius: 2000
+    });
+
+    newBbq.addListener('click', function() {
+      window.location.replace(`/bbqs/${bbq.bbqId}`);
     });
 
     this.bbqs.push(newBbq);
