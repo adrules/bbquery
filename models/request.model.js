@@ -17,7 +17,7 @@ const requestSchema = new mongoose.Schema({
   },
   status: {
     type: String,
-    enum: ['requested', 'accepted', 'cancelled', 'confirmed'],
+    enum: ['requested', 'waiting for payment', 'cancelled', 'confirmed'],
     default: 'requested'
   }
 }, { timestamps: true });
