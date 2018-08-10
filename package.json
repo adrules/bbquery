@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/adrules/bbquery#readme",
   "dependencies": {
+    "axios": "^0.18.0",
     "bcrypt": "^3.0.0",
     "body-parser": "^1.18.3",
     "cloudinary": "^1.11.0",

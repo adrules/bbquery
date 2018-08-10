@@ -8,4 +8,8 @@ module.exports = (hbs) => {
     hbs.registerHelper('moment', function (date) {
         return date ? moment(date).format('LLLL') : undefined;
     });
+
+    hbs.registerHelper('momentWeather', function (date) {
+        return date ? moment(date).format('YYYY/M/DD') : undefined;
+    });
 }

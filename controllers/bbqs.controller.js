@@ -4,6 +4,8 @@ const Bbq = require('../models/bbq.model');
 const Request = require('../models/request.model');
 const Review = require('../models/review.model');
 const cloudinary = require('cloudinary');
+const axios = require('axios');
+const moment = require('moment');
 
 module.exports.create = (req, res, next) => {
   res.render('bbqs/create', { apiKey: process.env.GPLACES_API_KEY });
@@ -14,7 +16,6 @@ module.exports.doCreate = (req, res, next) => {
   const bbq = new Bbq(req.body);
   cloudinary.uploader.upload(req.file.path, function(result) { 
     console.log('picture saved to cloudinary!');
-    console.log(result);
     bbq.photo = result.url;
     bbq.save()
       .then(bbq => {
@@ -85,46 +86,57 @@ module.exports.get = (req, res, next) => {
       if (bbq) {
         bbq.latitude = bbq.location.coordinates[0];
         bbq.longitude = bbq.location.coordinates[1];
-
-        Review.find({ bbqReviewed: bbq._id })
-          .populate('userReviewer')
-          .then(reviews => {
-            bbq.reviews = reviews;
-          })
-          .catch(error => next(error));
-
-        if (req.user) {
-          if (bbq.user.equals(req.user._id)) {
-            bbq.organizer = true;
-          }
-          Request.find({bbq: bbq._id })
-            .populate('user')
-            .then(requests => {
-              if (requests) {
-                bbq.requests = requests;
-                let ownerRequest = bbq.requests.find(function(request){ return request.user.equals(req.user._id)});
-                if (ownerRequest) {
-                  bbq.requested = true;
-                  if (ownerRequest.status === 'waiting for payment') {
-                    bbq.waiting = true;
-                    bbq.requestId = ownerRequest._id;
+        Promise.all([
+          axios.get('https://www.metaweather.com/api/location/766273/' + moment(bbq.date).format('YYYY/MM/DD')),
+          Review.find({ bbqReviewed: bbq._id }).populate('userReviewer')
+        ])
+          .then(results => {              
+            let [weather, reviews] = results;
+            if (weather) {
+              parsedWeather = parseWeather(weather);
+              bbq.minTemp = parsedWeather.minTemp;
+              bbq.maxTemp = parsedWeather.maxTemp;
+              bbq.state = parsedWeather.state;
+              console.log(parsedWeather);
+            }             
+            if (reviews) {
+              bbq.reviews = reviews;
+            }
+            if (req.user) {
+              if (bbq.user.equals(req.user._id)) {
+                bbq.organizer = true;
+              }
+              Request.find({bbq: bbq._id })
+                .populate('user')
+                .then(requests => {
+                  if (requests) {
+                    bbq.requests = requests;
+                    let ownerRequest = bbq.requests.find(function(request){ return request.user.equals(req.user._id)});
+                    if (ownerRequest) {
+                      bbq.requested = true;
+                      if (ownerRequest.status === 'waiting for payment') {
+                        bbq.waiting = true;
+                        bbq.requestId = ownerRequest._id;
+                      }
+                      if (ownerRequest.status === 'confirmed') {
+                        bbq.paid = true;
+                      }
+                    }
                   }
-                  if (ownerRequest.status === 'confirmed') {
-                    bbq.paid = true;
-                  }
-                }
-              }              
+                  console.log(bbq.minTemp);              
+                  res.render('bbqs/detail', {
+                    bbq, 
+                    apiKey: process.env.GPLACES_API_KEY
+                  });
+                });
+            } else {
+              console.log(bbq.minTemp);      
               res.render('bbqs/detail', {
-                bbq, 
-                apiKey: process.env.GPLACES_API_KEY
+              bbq, 
+              apiKey: process.env.GPLACES_API_KEY
               });
-            })
-        } else {
-          res.render('bbqs/detail', {
-            bbq, 
-            apiKey: process.env.GPLACES_API_KEY
-          });
-        }
+            }
+          });        
       } else {
         next(createError(404, `Bbq not found :(`));
       }
@@ -160,4 +172,41 @@ module.exports.review = (req, res, next) => {
       }
     })
     .catch(error => {next(error)});
+}
+
+
+function countStatus(array) {
+  let obj = array.reduce((acc, next) => {
+    if (next in acc) {
+      acc[next]++;
+    } else {
+      acc[next] = 1
+    }
+    return acc;
+  }, {});
+  let max = 0;
+  let result;
+  for (prop in obj) {
+    if (obj[prop] > max) {
+      max = obj[prop];
+      result = prop;
+    }
+  }
+  return result;
+}
+
+function parseWeather(weather) {
+  let minTemp = 0;
+  let maxTemp = 0;
+  let state = []
+  for (let i = 0; i < weather.data.length; i++) {
+    minTemp += weather.data[i].min_temp;
+    maxTemp += weather.data[i].max_temp;
+    state.push(weather.data[i].weather_state_abbr);
+  }
+  return {
+    minTemp: (minTemp / weather.data.length).toFixed(0),
+    maxTemp: (maxTemp / weather.data.length).toFixed(0),
+    state: countStatus(state)
+  }
 }

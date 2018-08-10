@@ -4,28 +4,23 @@
   {{else}}
     <img src="https://images.unsplash.com/photo-1523301343968-6a6ebf63c672?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=675d706c330862ec0a0b01703de8abba&auto=format&fit=crop&w=1950&q=80" class="img-fluid" alt="Responsive image">
   {{/if}}
-  <h1>{{bbq.name}}
-    {{#if bbq.paid}}
-      <button id="confirmed" class="btn btn-success" disabled>You are confirmed!</button>
-    {{else bbq.waiting}}
-      <a href="../requests/pay?id={{bbq.requestId}}" class="btn btn-primary">Pay</a>  
-    {{else bbq.requested}}
-      <button class="btn btn-primary" disabled>Waiting confirmation...</button>
-    {{else bbq.organizer}}
-      <button class="btn btn-danger" id="cancel">Cancel BBQ</button>
-    {{else session}}
-      <button class="btn btn-primary" id="join">Join BBQ!</button>
-    {{else}}      
-      <a class="btn btn-primary" href="../sessions/login">Wanna Join? Login!</a>
-    {{/if}}
-  </h1>
+</div>
+
+<h1 class="mt-5">{{bbq.name}}
   {{#if bbq.paid}}
-  <p><span class="font-weight-bold">Address:</span> {{bbq.address}}</p>
+    <button id="confirmed" class="btn btn-success" disabled>You are confirmed!</button>
+  {{else bbq.waiting}}
+    <a href="../requests/pay?id={{bbq.requestId}}" class="btn btn-primary">Pay</a>  
+  {{else bbq.requested}}
+    <button class="btn btn-primary" disabled>Waiting confirmation...</button>
+  {{else bbq.organizer}}
+    <button class="btn btn-danger" id="cancel">Cancel BBQ</button>
+  {{else session}}
+    <button class="btn btn-primary" id="join">Join BBQ!</button>
+  {{else}}      
+    <a class="btn btn-primary" href="../sessions/login">Wanna Join? Login!</a>
   {{/if}}
-  <p><span class="font-weight-bold">Date:</span> {{moment bbq.date}}</p>
-  <p><span class="font-weight-bold">Organizer</span> <a href="../users/{{bbq.user.id}}">@{{bbq.user.firstName}}</a> wants to remember this:</p>
-  <p class="font-italic">"{{bbq.description}}"</p>
-<div>
+</h1>
 
 <div>
   <form method="POST" action="/requests/create" class="mb-5 mt-3">
@@ -34,7 +29,32 @@
   </form>
 </div>
 
-<div class="container">
+<div class="row">
+  <div class="col">
+    {{#if bbq.paid}}
+    <p><span class="font-weight-bold">Address:</span> {{bbq.address}}</p>
+    {{/if}}
+    <p><span class="font-weight-bold">Date</span><br> {{moment bbq.date}}</p>
+  </div>
+  <div class="col">
+    <p><span class="font-weight-bold">Weather</span><br>
+    <img src="https://www.metaweather.com/static/img/weather/{{bbq.state}}.svg" class="state-icon-sml"></img></p>
+  </div>
+  <div class="col">
+    <p><span class="font-weight-bold">Temperature</span><br>Max: {{bbq.maxTemp}}°C<br>Min: {{bbq.minTemp}}°C</p>
+  </div>
+</div>
+
+<div class="card mb-3">
+  <div class="card-body">
+    <blockquote class="blockquote mb-0">
+      <p class="font-italic">"{{bbq.description}}"</p>
+      <footer class="blockquote-footer">The Organizer: <cite title="Source Title"><a href="../users/{{bbq.user.id}}">@{{bbq.user.firstName}}</a></cite></footer>
+    </blockquote>
+  </div>
+</div>
+
+<div>
 {{#if session}}
   <div class="row mb-3">
     <div class="col-sm-12 col-lg-9 mb-3">
@@ -61,11 +81,11 @@
 {{/if}}
 </div>
 
-<p>Price: {{bbq.ppp}}€ per person</p>
-
-<p>Max attendees: {{bbq.maxAttendees}} people</p>
-
-<p>Status: {{bbq.status}}</p>
+<div>
+  <h5>More info</h5>
+  <p><span class="font-weight-bold">Price:</span> {{bbq.ppp}}€ per person</p>
+  <p><span class="font-weight-bold">Max attendees:</span> {{bbq.maxAttendees}} people</p>
+  <p><span class="font-weight-bold">Status:</span> {{bbq.status}}</p>
 {{#if bbq.public}}
   <p>Public BBQ</p>
 {{else}}
@@ -73,10 +93,9 @@
 {{/if}}
 
 {{#if bbq.dogFriendly}}
-  <p>Dog friendly :)</p>
+  <p><span class="font-weight-bold"Dog friendly :)></span></p>
 {{/if}}
-
-<p>Tags: {{bbq.tags}}</p>
+</div>
 
 <hr>
 
