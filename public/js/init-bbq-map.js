@@ -10,7 +10,6 @@ function initMap() {
 
   new BbqsApi().getBbq($('#id').val())
     .then(bbq => {
-      console.log(bbq.data)
-      map.addBbq(bbq.data);
+      !!$('#confirmed').length || !!$('#cancel').length ? map.addBbqPoint(bbq.data) : map.addBbq(bbq.data);
     });
 }

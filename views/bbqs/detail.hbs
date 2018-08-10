@@ -6,11 +6,13 @@
   {{/if}}
   <h1>{{bbq.name}}
     {{#if bbq.paid}}
-      <button class="btn btn-success" disabled>You are confirmed!</button>
+      <button id="confirmed" class="btn btn-success" disabled>You are confirmed!</button>
+    {{else bbq.waiting}}
+      <a href="../requests/pay?id={{bbq.requestId}}" class="btn btn-primary">Pay</a>  
     {{else bbq.requested}}
       <button class="btn btn-primary" disabled>Waiting confirmation...</button>
     {{else bbq.organizer}}
-      <button class="btn btn-danger" disabled>Cancel</button>
+      <button class="btn btn-danger" id="cancel">Cancel BBQ</button>
     {{else session}}
       <button class="btn btn-primary" id="join">Join BBQ!</button>
     {{else}}      
@@ -18,9 +20,9 @@
     {{/if}}
   </h1>
   {{#if bbq.paid}}
-  <p><span class="font-weight-bold">Address:</span>{{bbq.address}}</p>
+  <p><span class="font-weight-bold">Address:</span> {{bbq.address}}</p>
   {{/if}}
-  <p><span class="font-weight-bold">Date:</span>{{moment bbq.date}}</p>
+  <p><span class="font-weight-bold">Date:</span> {{moment bbq.date}}</p>
   <p><span class="font-weight-bold">Organizer</span> <a href="../users/{{bbq.user.id}}">@{{bbq.user.firstName}}</a> wants to remember this:</p>
   <p class="font-italic">"{{bbq.description}}"</p>
 <div>

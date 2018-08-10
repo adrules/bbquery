@@ -49,12 +49,12 @@ class BbqsMap {
   addBbqPoint(bbq) {
     let newBbq = new google.maps.Marker({
       map: this.map,
-      center: {
+      position: {
         lat: bbq.lat,
         lng: bbq.lng
-      },
-      title: 'Hello World!'
+      }
     });
+    
     this.bbqs.push(newBbq);
   }
 

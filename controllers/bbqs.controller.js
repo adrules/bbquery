@@ -105,6 +105,10 @@ module.exports.get = (req, res, next) => {
                 let ownerRequest = bbq.requests.find(function(request){ return request.user.equals(req.user._id)});
                 if (ownerRequest) {
                   bbq.requested = true;
+                  if (ownerRequest.status === 'waiting for payment') {
+                    bbq.waiting = true;
+                    bbq.requestId = ownerRequest._id;
+                  }
                   if (ownerRequest.status === 'confirmed') {
                     bbq.paid = true;
                   }
