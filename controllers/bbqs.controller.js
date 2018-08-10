@@ -4,6 +4,7 @@ const Bbq = require('../models/bbq.model');
 const Request = require('../models/request.model');
 const Review = require('../models/review.model');
 const cloudinary = require('cloudinary');
+const moment = require('moment');
 
 module.exports.create = (req, res, next) => {
   res.render('bbqs/create', { apiKey: process.env.GPLACES_API_KEY });
@@ -97,6 +98,10 @@ module.exports.get = (req, res, next) => {
           if (bbq.user.equals(req.user._id)) {
             bbq.organizer = true;
           }
+
+          if (bbq.date.getTime() < Date.now())             
+            bbq.celebrated = true;                      
+
           Request.find({bbq: bbq._id })
             .populate('user')
             .then(requests => {
