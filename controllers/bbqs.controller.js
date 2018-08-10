@@ -40,6 +40,9 @@ module.exports.list = (req, res, next) => {
   Bbq.find({ public: true })
     .populate('user')
     .then(bbqs => {
+      
+      bbqs = bbqs.sort((a, b) => a.date.getTime() - b.date.getTime());
+
       res.render('bbqs/list', { 
         bbqs
       });
@@ -84,6 +87,9 @@ module.exports.get = (req, res, next) => {
     .populate('user')
     .then(bbq => {
       if (bbq) {
+        if (bbq.date.getTime() < Date.now())             
+            bbq.celebrated = true;
+
         bbq.latitude = bbq.location.coordinates[0];
         bbq.longitude = bbq.location.coordinates[1];
         Promise.all([

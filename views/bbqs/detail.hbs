@@ -126,34 +126,44 @@
 {{/if}} 
 
 <hr>
-
 {{#if session}}
-<form action="/bbqs/review" method="POST">
-  <div class="input-group">
-    <input type="radio" name="rate" value="1"> 1
-    <input type="radio" name="rate" value="2"> 2
-    <input type="radio" name="rate" value="3" checked="checked"> 3
-    <input type="radio" name="rate" value="4"> 4
-    <input type="radio" name="rate" value="5"> 5
-  </div>
-  <br>
-  <input type="text" value="{{bbq.user._id}}" name="reviewed" hidden>
-  <input type="text" value="{{bbq._id}}" name="bbqid" hidden>
-  <br>
-  <div class="input-group">
-    <textarea class="form-control" placeholder="Place your comment here" name="review"></textarea>
-  </div>
-  <br>
-  <button type="submit" class="btn btn-primary">Comment</button>
-</form>
+  {{#if bbq.celebrated}}
+  <form action="/bbqs/review" method="POST" id="ratingsForm">    
+    <div class="star-rating">
+      <div class="star-rating__wrap">
+        <input class="star-rating__input" id="star-rating-5" type="radio" name="rate" value="5">
+          <label class="star-rating__ico fa fa-star-o fa-lg" for="star-rating-5" title="5 out of 5 stars"></label>
+        <input class="star-rating__input" id="star-rating-4" type="radio" name="rate" value="4">
+          <label class="star-rating__ico fa fa-star-o fa-lg" for="star-rating-4" title="4 out of 5 stars"></label>
+        <input class="star-rating__input" id="star-rating-3" type="radio" name="rate" value="3">
+          <label class="star-rating__ico fa fa-star-o fa-lg" for="star-rating-3" title="3 out of 5 stars"></label>
+        <input class="star-rating__input" id="star-rating-2" type="radio" name="rate" value="2">
+          <label class="star-rating__ico fa fa-star-o fa-lg" for="star-rating-2" title="2 out of 5 stars"></label>
+        <input class="star-rating__input" id="star-rating-1" type="radio" name="rate" value="1">
+          <label class="star-rating__ico fa fa-star-o fa-lg" for="star-rating-1" title="1 out of 5 stars"></label>
+      </div>
+    </div>
+    <br>
+    <input type="text" value="{{bbq.user._id}}" name="reviewed" hidden>
+    <input type="text" value="{{bbq._id}}" name="bbqid" hidden>
+    <br>
+    <div class="input-group">
+      <textarea class="form-control" placeholder="Place your comment here" name="review"></textarea>
+    </div>
+    <br>
+    <button type="submit" class="btn btn-primary">Comment</button>
+  </form>
+  {{/if}}
 {{/if}}
 
+{{#if bbq.reviews}}
 <h2>Comments</h2>
 <ul class="list-unstyled">
   {{#each bbq.reviews as |review|}}
     {{> bbqReview review }}
   {{/each}}
 </ul>
+{{/if}}
 
 <input type="hidden" id="id" value="{{bbq._id}}">
 
