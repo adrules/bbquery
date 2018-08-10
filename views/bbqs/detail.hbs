@@ -45,11 +45,11 @@
   </div>
 </div>
 
-<div class="card">
+<div class="card mb-3">
   <div class="card-body">
     <blockquote class="blockquote mb-0">
       <p class="font-italic">"{{bbq.description}}"</p>
-      <footer class="blockquote-footer">Someone famous in <cite title="Source Title">Source Title</cite></footer>
+      <footer class="blockquote-footer">The Organizer: <cite title="Source Title"><a href="../users/{{bbq.user.id}}">@{{bbq.user.firstName}}</a></cite></footer>
     </blockquote>
   </div>
 </div>
@@ -81,11 +81,11 @@
 {{/if}}
 </div>
 
-<p>Price: {{bbq.ppp}}€ per person</p>
-
-<p>Max attendees: {{bbq.maxAttendees}} people</p>
-
-<p>Status: {{bbq.status}}</p>
+<div>
+  <h5>More info</h5>
+  <p><span class="font-weight-bold">Price:</span> {{bbq.ppp}}€ per person</p>
+  <p><span class="font-weight-bold">Max attendees:</span> {{bbq.maxAttendees}} people</p>
+  <p><span class="font-weight-bold">Status:</span> {{bbq.status}}</p>
 {{#if bbq.public}}
   <p>Public BBQ</p>
 {{else}}
@@ -93,10 +93,9 @@
 {{/if}}
 
 {{#if bbq.dogFriendly}}
-  <p>Dog friendly :)</p>
+  <p><span class="font-weight-bold"Dog friendly :)></span></p>
 {{/if}}
-
-<p>Tags: {{bbq.tags}}</p>
+</div>
 
 <hr>
 
