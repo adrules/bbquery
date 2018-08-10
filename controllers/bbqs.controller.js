@@ -4,6 +4,8 @@ const Bbq = require('../models/bbq.model');
 const Request = require('../models/request.model');
 const Review = require('../models/review.model');
 const cloudinary = require('cloudinary');
+const axios = require('axios');
+const moment = require('moment');
 
 module.exports.create = (req, res, next) => {
   res.render('bbqs/create', { apiKey: process.env.GPLACES_API_KEY });
@@ -85,46 +87,62 @@ module.exports.get = (req, res, next) => {
       if (bbq) {
         bbq.latitude = bbq.location.coordinates[0];
         bbq.longitude = bbq.location.coordinates[1];
+        axios.get('https://www.metaweather.com/api/location/766273/' + moment(bbq.date).format('YYYY/MM/DD'))
+          .then(response => {            
+            let minTemp = 0;
+            let maxTemp = 0;
+            let state = []
+            for (let i = 0; i < response.data.length; i++) {
+              minTemp += response.data[i].min_temp;
+              maxTemp += response.data[i].max_temp;
+              state.push(response.data[i].weather_state_abbr);
+            }
+            bbq.minTemp = minTemp / response.data.length;
+            bbq.maxTemp = maxTemp / response.data.length;
+            bbq.state = countStatus(state);
+            Review.find({ bbqReviewed: bbq._id })
+              .populate('userReviewer')
+              .then(reviews => {
+                bbq.reviews = reviews;
+              })
+              .catch(error => next(error));
 
-        Review.find({ bbqReviewed: bbq._id })
-          .populate('userReviewer')
-          .then(reviews => {
-            bbq.reviews = reviews;
-          })
-          .catch(error => next(error));
-
-        if (req.user) {
-          if (bbq.user.equals(req.user._id)) {
-            bbq.organizer = true;
-          }
-          Request.find({bbq: bbq._id })
-            .populate('user')
-            .then(requests => {
-              if (requests) {
-                bbq.requests = requests;
-                let ownerRequest = bbq.requests.find(function(request){ return request.user.equals(req.user._id)});
-                if (ownerRequest) {
-                  bbq.requested = true;
-                  if (ownerRequest.status === 'waiting for payment') {
-                    bbq.waiting = true;
-                    bbq.requestId = ownerRequest._id;
-                  }
-                  if (ownerRequest.status === 'confirmed') {
-                    bbq.paid = true;
-                  }
-                }
-              }              
+            if (req.user) {
+              if (bbq.user.equals(req.user._id)) {
+                bbq.organizer = true;
+              }
+              Request.find({bbq: bbq._id })
+                .populate('user')
+                .then(requests => {
+                  if (requests) {
+                    bbq.requests = requests;
+                    let ownerRequest = bbq.requests.find(function(request){ return request.user.equals(req.user._id)});
+                    if (ownerRequest) {
+                      bbq.requested = true;
+                      if (ownerRequest.status === 'waiting for payment') {
+                        bbq.waiting = true;
+                        bbq.requestId = ownerRequest._id;
+                      }
+                      if (ownerRequest.status === 'confirmed') {
+                        bbq.paid = true;
+                      }
+                    }
+                  }              
+                  res.render('bbqs/detail', {
+                    bbq, 
+                    apiKey: process.env.GPLACES_API_KEY
+                  });
+                })
+            } else {
               res.render('bbqs/detail', {
                 bbq, 
                 apiKey: process.env.GPLACES_API_KEY
               });
-            })
-        } else {
-          res.render('bbqs/detail', {
-            bbq, 
-            apiKey: process.env.GPLACES_API_KEY
-          });
-        }
+            }
+          })
+          .catch(function (error) {
+            console.log(error);
+          })
       } else {
         next(createError(404, `Bbq not found :(`));
       }
@@ -160,4 +178,56 @@ module.exports.review = (req, res, next) => {
       }
     })
     .catch(error => {next(error)});
+}
+
+function getWeather(date) {
+  date = moment(date).format('YYYY/MM/DD');
+  axios.get('https://www.metaweather.com/api/location/766273/' + date)
+    .then(response => {
+      let minTemp = 0;
+      let maxTemp = 0;
+      let state = []
+
+      for (let i = 0; i < response.data.length; i++) {
+        console.log(response.data[i].max_temp);
+        minTemp += response.data[i].min_temp;
+        maxTemp += response.data[i].max_temp;
+        state.push(response.data[i].weather_state_abbr);
+      }
+
+      minTemp /= response.data.length;
+      maxTemp /= response.data.length;
+
+      return {
+        state: countStatus(state),
+        minTemp: minTemp /= response.data.length,
+        maxTemp: maxTemp /= response.data.length
+      }
+    })
+    .catch(function (error) {
+      console.log(error);
+    })
+    .then(function () {
+    });
+}
+
+function countStatus(array) {
+  let obj = array.reduce((acc, next) => {
+    if (next in acc) {
+      acc[next]++;
+    } else {
+      acc[next] = 1
+    }
+    return acc;
+  }, {})
+  let max = 0;
+  let result; 
+  for (prop in obj) {    
+    if (obj[prop] > max) {
+      max = obj[prop];
+      result = prop;
+    }
+  }
+  console.log('countStatus', result);
+  return result;
 }
