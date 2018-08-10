@@ -92,17 +92,14 @@ module.exports.get = (req, res, next) => {
         ])
           .then(results => {              
             let [weather, reviews] = results;
-            console.log(weather);
-            console.log(reviews);
             if (weather) {
-              weather = parseWeather(weather);
-              console.log(weather);
-              bbq.minTemp = weather.minTemp;
-              bbq.maxTemp = weather.maxTemp;
-              bbq.state = weather.state;
+              parsedWeather = parseWeather(weather);
+              bbq.minTemp = parsedWeather.minTemp;
+              bbq.maxTemp = parsedWeather.maxTemp;
+              bbq.state = parsedWeather.state;
+              console.log(parsedWeather);
             }             
             if (reviews) {
-              console.log(reviews);
               bbq.reviews = reviews;
             }
             if (req.user) {
@@ -125,13 +122,15 @@ module.exports.get = (req, res, next) => {
                         bbq.paid = true;
                       }
                     }
-                  }              
+                  }
+                  console.log(bbq.minTemp);              
                   res.render('bbqs/detail', {
                     bbq, 
                     apiKey: process.env.GPLACES_API_KEY
                   });
                 });
             } else {
+              console.log(bbq.minTemp);      
               res.render('bbqs/detail', {
               bbq, 
               apiKey: process.env.GPLACES_API_KEY
@@ -193,7 +192,6 @@ function countStatus(array) {
       result = prop;
     }
   }
-  console.log('countStatus', result);
   return result;
 }
 
@@ -207,8 +205,8 @@ function parseWeather(weather) {
     state.push(weather.data[i].weather_state_abbr);
   }
   return {
-    minTemp: minTemp / weather.data.length,
-    maxTemp: maxTemp / weather.data.length,
+    minTemp: (minTemp / weather.data.length).toFixed(0),
+    maxTemp: (maxTemp / weather.data.length).toFixed(0),
     state: countStatus(state)
   }
 }
