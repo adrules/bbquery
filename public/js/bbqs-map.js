@@ -24,7 +24,7 @@ class BbqsMap {
     this.map = new google.maps.Map(containerDOMElement, mapOptions);
   }
 
-  addBbq(bbq) {    
+  addBbq(bbq) {
     let newBbq = new google.maps.Circle({
       strokeColor: '#343a40',
       strokeOpacity: 0.8,
@@ -43,6 +43,18 @@ class BbqsMap {
       window.location.replace(`/bbqs/${bbq.bbqId}`);
     });
 
+    this.bbqs.push(newBbq);
+  }
+
+  addBbqPoint(bbq) {
+    let newBbq = new google.maps.Marker({
+      map: this.map,
+      center: {
+        lat: bbq.lat,
+        lng: bbq.lng
+      },
+      title: 'Hello World!'
+    });
     this.bbqs.push(newBbq);
   }
 

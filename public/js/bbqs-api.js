@@ -13,4 +13,10 @@ class BbqsApi {
       .then(async response => response.data)
       .catch(error => console.error(error));
   }
+
+  getBbq(id) {
+    return this.api.get(`${id}/location`)
+      .then(async response => response.data)
+      .catch(error => console.error(error));
+  }
 }

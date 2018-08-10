@@ -13,4 +13,3 @@ $('#join').on('click', () => {
     $('form').remove();
   })
 });
-

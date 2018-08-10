@@ -9,6 +9,7 @@ router.get('/create', authMiddleware.isAuthenticated, authMiddleware.isActive, b
 router.post('/create', authMiddleware.isAuthenticated, authMiddleware.isActive, upload.single('photo'), bbqsController.doCreate);
 
 router.get('/locations', bbqsController.getBbqsLocations);
+router.get('/:id/location', bbqsController.getBbqLocation);
 
 router.post('/review', bbqsController.review);
 

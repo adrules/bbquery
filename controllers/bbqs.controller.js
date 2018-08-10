@@ -58,8 +58,21 @@ module.exports.getBbqsLocations = (req, res, next) => {
           lng: bbq.location.coordinates[1],
           bbqId: bbq._id
         }});
-        
+       
       res.json({ data: bbqsLocation });
+    })
+    .catch(e => console.error(e));
+};
+
+module.exports.getBbqLocation = (req, res, next) => {
+  Bbq.findById(req.params.id)
+    .then(bbq => {
+      let bbqLocation = {
+        lat: bbq.location.coordinates[0],
+        lng: bbq.location.coordinates[1],
+        bbqId: bbq._id
+      }
+      res.json({ data: bbqLocation });
     })
     .catch(e => console.error(e));
 };
