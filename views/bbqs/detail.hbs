@@ -61,51 +61,44 @@
 {{/if}}
 </div>
 
-<p>Price: {{bbq.ppp}}€ per person</p>
-
-<p>Max attendees: {{bbq.maxAttendees}} people</p>
-
-<p>Status: {{bbq.status}}</p>
-{{#if bbq.public}}
-  <p>Public BBQ</p>
-{{else}}
-  <p>Private BBQ</p>
-{{/if}}
-
-{{#if bbq.dogFriendly}}
-  <p>Dog friendly :)</p>
-{{/if}}
-
-<p>Tags: {{bbq.tags}}</p>
-
-<hr>
-
-<h2>Menu</h2>
-<h3>Dishes</h3>
-
-<ul>
-  {{#each bbq.dishes}}
-    <li>{{this.name}}</li>
-    <ul>
-      {{#each this.ingredients}}
-        <li>{{this.name}}</li>
-      {{/each}}
-    </ul>
-  {{/each}}
-</ul>
-
-<h3>Drinks</h3>
-
-<ul>
-{{#each bbq.drinks}}
-  <li>{{this.name}}</li>
-{{/each}}
-</ul> 
-
-{{#if bbq.bread}}
-  <p>Bread is included! :)</p>
-{{/if}} 
-
+<div class="container">
+  <div class="row mb-3">
+    <div class="col-sm-12 col-lg-6">
+      <h2>Menu</h2>
+        <h3>Dishes</h3>
+        <ul>
+          {{#each bbq.dishes}}
+            <li>{{this.name}}</li>
+            <ul>
+              {{#each this.ingredients}}
+                <li>{{this.name}}</li>
+              {{/each}}
+            </ul>
+          {{/each}}
+        </ul>
+        <h3>Drinks</h3>
+        <ul>
+        {{#each bbq.drinks}}
+          <li>{{this.name}}</li>
+        {{/each}}
+        </ul> 
+        {{#if bbq.bread}}
+          <p>Bread is included! :)</p>
+        {{/if}} 
+    </div>
+    <div class="col-sm-12 col-lg-6 mb-3">
+      <ul class="list-group ">
+        <li class="list-group-item"><b>Price:</b> {{bbq.ppp}}€ per person</li>
+        <li class="list-group-item"><b>Max attendees:</b> {{bbq.maxAttendees}} people</li>
+        <li class="list-group-item"><b>Status:</b> {{bbq.status}}</li>
+        <li class="list-group-item"><b>{{#if bbq.public}}Public BBQ{{else}}Private BBQ{{/if}}</b></li>
+        <li class="list-group-item"><b>{{#if bbq.dogFriendly}}Dog friendly :){{/if}}</b></li>
+        <li class="list-group-item"><b>Tags:</b> {{bbq.tags}}</li>
+      </ul>
+    </div>
+  </div>
+</div>  
+  
 <hr>
 {{#if session}}
   {{#if bbq.celebrated}}
