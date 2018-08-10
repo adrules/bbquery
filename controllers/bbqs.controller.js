@@ -40,6 +40,9 @@ module.exports.list = (req, res, next) => {
   Bbq.find({ public: true })
     .populate('user')
     .then(bbqs => {
+      
+      bbqs = bbqs.sort((a, b) => a.date.getTime() - b.date.getTime());
+
       res.render('bbqs/list', { 
         bbqs
       });
