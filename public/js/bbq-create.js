@@ -125,5 +125,10 @@ function deleteDrink(target) {
 $('#addDishButton').on('click', addDish);
 $('#drinkButton').on('click', addDrink);
 
+$('#photoInput').on('change',function(){
+    var fileName = $(this).val().split('\\').pop();
+    $(this).next('.custom-file-label').html(fileName);
+})
+
 addDish();
 addDrink();
