@@ -66,6 +66,10 @@
         <li class="list-group-item d-flex justify-content-between align-items-center">
           List of attendees
         </li>
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+          <a href="../users/{{bbq.user._id}}">@{{bbq.user.firstName}}</a>
+          <span class="badge badge-primary badge-pill">Organizer</span>
+        </li>
         {{#each bbq.requests}}
           <li class="list-group-item d-flex justify-content-between align-items-center">
             <a href="../users/{{this.user._id}}">@{{this.user.firstName}}</a>
@@ -81,49 +85,48 @@
 {{/if}}
 </div>
 
-<div>
-  <h5>More info</h5>
-  <p><span class="font-weight-bold">Price:</span> {{bbq.ppp}}€ per person</p>
-  <p><span class="font-weight-bold">Max attendees:</span> {{bbq.maxAttendees}} people</p>
-  <p><span class="font-weight-bold">Status:</span> {{bbq.status}}</p>
-{{#if bbq.public}}
-  <p>Public BBQ</p>
-{{else}}
-  <p>Private BBQ</p>
-{{/if}}
+<div class="container">
+<div class="row">
+  <div class="card col-6" style="width: auto;">
+    <div class="card-body">
+      <h5 class="card-title">More info</h5>
+      <p class="card-text"><span class="font-weight-bold">Price:</span> {{bbq.ppp}}€ per person</p>
+      <p><span class="font-weight-bold">Max attendees:</span> {{bbq.maxAttendees}} people</p>
+      <p><span class="font-weight-bold">Status:</span> {{bbq.status}}</p>
+      {{#if bbq.public}}
+      <p>Public BBQ</p>
+      {{else}}
+      <p>Private BBQ</p>
+      {{/if}}
+      {{#if bbq.dogFriendly}}
+      <p><span class="font-weight-bold"Dog friendly :)></span></p>
+      {{/if}}
+    </div>
+  </div>
 
-{{#if bbq.dogFriendly}}
-  <p><span class="font-weight-bold"Dog friendly :)></span></p>
-{{/if}}
-</div>
-
-<hr>
-
-<h2>Menu</h2>
-<h3>Dishes</h3>
-
-<ul>
-  {{#each bbq.dishes}}
-    <li>{{this.name}}</li>
-    <ul>
-      {{#each this.ingredients}}
+  <div class="card col-6" style="width: auto;">
+    <div class="card-body">
+      <h5 class="card-title">Menu</h5>
+      <h8 class="card-title">Dishes</h3>
+      <ul>
+      {{#each bbq.dishes}}
         <li>{{this.name}}</li>
       {{/each}}
-    </ul>
-  {{/each}}
-</ul>
+      </ul>
+      <h8>Drinks</h3>
+      <ul>
+        {{#each bbq.drinks}}
+          <li>{{this.name}}</li>
+        {{/each}}
+      </ul> 
+      {{#if bbq.bread}}
+      <p>Bread is included! :)</p>  
+      {{/if}} 
+    </div>
+  </div>
+</div>
+</div>
 
-<h3>Drinks</h3>
-
-<ul>
-{{#each bbq.drinks}}
-  <li>{{this.name}}</li>
-{{/each}}
-</ul> 
-
-{{#if bbq.bread}}
-  <p>Bread is included! :)</p>
-{{/if}} 
 
 <hr>
 {{#if session}}

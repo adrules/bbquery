@@ -38,6 +38,7 @@ module.exports.doCreate = (req, res, next) => {
       }
     })
     .catch(error => {
+      console.error(error);
       if (error instanceof mongoose.Error.ValidationError) {
         res.render('users/create', {
           user: req.body,
@@ -75,6 +76,7 @@ module.exports.activate = (req, res, next) => {
         res.redirect(`../users/create`);
       }      
     })
+    .catch(e => console.error(e))
 }
 
 module.exports.get = (req, res, next) => {

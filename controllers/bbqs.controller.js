@@ -103,7 +103,6 @@ module.exports.get = (req, res, next) => {
               bbq.minTemp = parsedWeather.minTemp;
               bbq.maxTemp = parsedWeather.maxTemp;
               bbq.state = parsedWeather.state;
-              console.log(parsedWeather);
             }             
             if (reviews) {
               bbq.reviews = reviews;
@@ -129,14 +128,12 @@ module.exports.get = (req, res, next) => {
                       }
                     }
                   }
-                  console.log(bbq.minTemp);              
                   res.render('bbqs/detail', {
                     bbq, 
                     apiKey: process.env.GPLACES_API_KEY
                   });
                 });
             } else {
-              console.log(bbq.minTemp);      
               res.render('bbqs/detail', {
               bbq, 
               apiKey: process.env.GPLACES_API_KEY
