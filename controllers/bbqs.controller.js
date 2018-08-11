@@ -41,7 +41,7 @@ module.exports.list = (req, res, next) => {
     .populate('user')
     .then(bbqs => {
       
-      bbqs = bbqs.sort((a, b) => a.date.getTime() - b.date.getTime());
+      bbqs = bbqs.sort((a, b) => b.date.getTime() - a.date.getTime());
 
       res.render('bbqs/list', { 
         bbqs
